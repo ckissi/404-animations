@@ -1,0 +1,96 @@
+<!-- 404 · Soft Error — a neumorphic panel whose RETRY button keeps pressing
+     in, the status LED blinking with it, but the page never returns. Pure
+     CSS, self-contained, no dependencies. Neumorphism needs the panel colour
+     to match its shadows: retheme --nm-bg together with --nm-dark/--nm-light.
+     MIT licensed — 404.colorion.co -->
+<div class="nm-404" role="img" aria-label="404 error animation: a soft neumorphic panel with a retry button pressing in">
+  <div class="nm-plate">
+    <span class="nm-led"></span>
+    <span class="nm-num">404</span>
+    <span class="nm-btn">RETRY</span>
+  </div>
+</div>
+
+<style>
+  .nm-404 {
+    --nm-bg: #e2f1f2;
+    --nm-ink: #0f191e;
+    --nm-accent: #f4ff2b;
+    --nm-dark: #b9c9cb;
+    --nm-light: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .nm-plate {
+    position: relative;
+    width: 150px;
+    height: 106px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: var(--nm-bg);
+    display: grid;
+    place-items: center;
+    gap: 11px;
+    box-shadow: 7px 7px 16px var(--nm-dark), -7px -7px 16px var(--nm-light);
+  }
+
+  .nm-led {
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nm-accent);
+    box-shadow:
+      inset 1px 1px 2px color-mix(in srgb, var(--nm-ink) 25%, transparent),
+      0 0 6px color-mix(in srgb, var(--nm-accent) 70%, transparent);
+    animation: nm-blink 3s ease-in-out infinite;
+  }
+
+  .nm-num {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--nm-ink);
+    opacity: 0.88;
+    text-shadow: 1px 1px 2px var(--nm-light), -1px -1px 2px var(--nm-dark);
+  }
+
+  .nm-btn {
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    color: var(--nm-ink);
+    background: var(--nm-bg);
+    box-shadow: 4px 4px 9px var(--nm-dark), -4px -4px 9px var(--nm-light);
+    animation: nm-press 3s ease-in-out infinite;
+  }
+
+  @keyframes nm-press {
+    0%, 45%, 100% {
+      box-shadow: 4px 4px 9px var(--nm-dark), -4px -4px 9px var(--nm-light);
+      transform: translateY(0);
+    }
+    60%, 80% {
+      box-shadow: inset 4px 4px 9px var(--nm-dark), inset -4px -4px 9px var(--nm-light);
+      transform: translateY(1px);
+    }
+  }
+  @keyframes nm-blink {
+    0%, 50%   { opacity: 0.35; }
+    60%, 80%  { opacity: 1; }
+    90%, 100% { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nm-404 .nm-btn,
+    .nm-404 .nm-led { animation: none; }
+    .nm-404 .nm-led { opacity: 0.5; }
+  }
+</style>

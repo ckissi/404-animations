@@ -1,0 +1,145 @@
+<!-- 404 · Séance Board — a planchette drifts across the board and the spirits
+     spell out 4… 0… 4. Pure CSS, self-contained, no dependencies. Retheme via
+     the custom properties on .ouija-404. MIT licensed — 404.colorion.co -->
+<div class="ouija-404" role="img" aria-label="404 error animation: a séance planchette spells out 4, 0, 4 on a spirit board">
+  <div class="ouija-board">
+    <div class="ouija-digits">
+      <span>1</span><span>2</span><span>3</span><span class="ouija-d4">4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="ouija-d0">0</span>
+    </div>
+    <span class="ouija-bye">NO SUCH PAGE</span>
+    <div class="ouija-planchette"></div>
+  </div>
+</div>
+
+<style>
+  .ouija-404 {
+    --o-ink: #0f191e;
+    --o-accent: #f4ff2b;
+    --o-board: #ffffff;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .ouija-board {
+    position: relative;
+    width: 192px;
+    height: 108px;
+    box-sizing: border-box;
+    background: var(--o-board);
+    border: 3px solid var(--o-ink);
+    border-radius: 14px 14px 10px 10px;
+  }
+
+  .ouija-digits {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: flex;
+    gap: 2px;
+  }
+
+  .ouija-digits span {
+    width: 14px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--o-ink);
+  }
+
+  /* The chosen digits light up while the planchette hovers over them. */
+  .ouija-d4 { animation: ouija-glow-4 10s infinite; }
+  .ouija-d0 { animation: ouija-glow-0 10s infinite; }
+
+  .ouija-bye {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--o-ink);
+    opacity: 0.55;
+    animation: ouija-glow-bye 10s infinite;
+  }
+
+  /* Teardrop planchette with a round window. Positioned so its window
+     starts centred on the board, then keyframed digit to digit. */
+  .ouija-planchette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 3px solid var(--o-ink);
+    border-radius: 50% 50% 50% 4px;
+    background: color-mix(in srgb, var(--o-accent) 40%, transparent);
+    transform: translate(66px, 48px) rotate(135deg);
+    animation: ouija-drift 10s ease-in-out infinite;
+  }
+
+  .ouija-planchette::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 2px solid var(--o-ink);
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  /* Window centre = translate + 18px (15px to planchette centre + 3px board
+     border). Digit “4” centre ≈ (72, 23) → translate(54px, 5px); digit “0”
+     ≈ (168, 23) → translate(150px, 5px); farewell ≈ (96, 87) → (78px, 69px). */
+  @keyframes ouija-drift {
+    0%        { transform: translate(66px, 48px) rotate(135deg); }
+    10%       { transform: translate(54px, 5px)  rotate(128deg); }
+    22%       { transform: translate(54px, 5px)  rotate(135deg); }
+    34%       { transform: translate(150px, 5px) rotate(142deg); }
+    46%       { transform: translate(150px, 5px) rotate(135deg); }
+    56%       { transform: translate(54px, 5px)  rotate(130deg); }
+    68%       { transform: translate(54px, 5px)  rotate(135deg); }
+    80%, 90%  { transform: translate(78px, 69px) rotate(135deg); }
+    100%      { transform: translate(66px, 48px) rotate(135deg); }
+  }
+
+  @keyframes ouija-glow-4 {
+    0%, 8%, 24%, 54%, 70%, 100% {
+      color: var(--o-ink);
+      text-shadow: none;
+    }
+    12%, 20%, 58%, 66% {
+      color: var(--o-ink);
+      text-shadow: 0 0 10px var(--o-accent), 0 0 4px var(--o-accent);
+    }
+  }
+
+  @keyframes ouija-glow-0 {
+    0%, 32%, 48%, 100% {
+      color: var(--o-ink);
+      text-shadow: none;
+    }
+    36%, 44% {
+      color: var(--o-ink);
+      text-shadow: 0 0 10px var(--o-accent), 0 0 4px var(--o-accent);
+    }
+  }
+
+  @keyframes ouija-glow-bye {
+    0%, 78%, 94%, 100% { opacity: 0.55; text-shadow: none; }
+    82%, 90%           { opacity: 1; text-shadow: 0 0 10px var(--o-accent); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ouija-404 .ouija-planchette,
+    .ouija-404 .ouija-d4,
+    .ouija-404 .ouija-d0,
+    .ouija-404 .ouija-bye { animation: none; }
+    .ouija-404 .ouija-planchette { transform: translate(54px, 5px) rotate(135deg); }
+    .ouija-404 .ouija-d4 { text-shadow: 0 0 10px var(--o-accent), 0 0 4px var(--o-accent); }
+  }
+</style>

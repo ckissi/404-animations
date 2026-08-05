@@ -1,0 +1,136 @@
+<!-- 404 · Ask Again Later — a magic 8-ball is shaken and its window surfaces
+     “404”, then “ASK AGAIN”. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .ball-404.
+     MIT licensed — 404.colorion.co -->
+<div class="ball-404" role="img" aria-label="404 error animation: a magic 8-ball answers 404, ask again">
+  <div class="ball-body">
+    <span class="ball-eight">8</span>
+    <div class="ball-window">
+      <span class="ball-ans ball-ans-a">404</span>
+      <span class="ball-ans ball-ans-b">ASK<br />AGAIN</span>
+    </div>
+  </div>
+  <div class="ball-shadow"></div>
+</div>
+
+<style>
+  .ball-404 {
+    --ball-ink: #0f191e;
+    --ball-accent: #f4ff2b;
+    --ball-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .ball-body {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: var(--ball-ink);
+    animation: ball-shake 7s ease-in-out infinite;
+  }
+
+  /* specular highlight */
+  .ball-body::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    width: 18px;
+    height: 10px;
+    border-radius: 50%;
+    transform: rotate(-30deg);
+    background: color-mix(in srgb, var(--ball-shell) 30%, transparent);
+  }
+
+  .ball-eight {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ball-ink);
+    background: var(--ball-shell);
+    border-radius: 50%;
+  }
+
+  .ball-window {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    width: 42px;
+    height: 42px;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 3px solid color-mix(in srgb, var(--ball-shell) 35%, var(--ball-ink));
+    background: color-mix(in srgb, var(--ball-ink) 80%, #000);
+    overflow: hidden;
+  }
+
+  .ball-ans {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-weight: 700;
+    color: var(--ball-accent);
+    opacity: 0;
+  }
+
+  .ball-ans-a { font-size: 11px; letter-spacing: 0.08em; animation: ball-surface-a 7s infinite; }
+  .ball-ans-b { font-size: 7px; line-height: 1.5; letter-spacing: 0.12em; animation: ball-surface-b 7s infinite; }
+
+  .ball-shadow {
+    width: 58px;
+    height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ball-ink) 22%, transparent);
+    animation: ball-shadow 7s ease-in-out infinite;
+  }
+
+  /* Timeline (7s): shake → “404” floats up out of the murk → sinks →
+     “ASK AGAIN” floats up → sinks → repeat. */
+  @keyframes ball-shake {
+    0%, 14%, 100% { transform: translate(0) rotate(0); }
+    2%  { transform: translate(-4px, -2px) rotate(-6deg); }
+    4%  { transform: translate(4px, 1px) rotate(6deg); }
+    6%  { transform: translate(-4px, 1px) rotate(-5deg); }
+    8%  { transform: translate(3px, -1px) rotate(4deg); }
+    10% { transform: translate(-2px, 0)   rotate(-2deg); }
+    12% { transform: translate(1px, 0)    rotate(1deg); }
+  }
+
+  @keyframes ball-shadow {
+    0%, 14%, 100% { transform: scaleX(1); }
+    4%  { transform: scaleX(1.15); }
+    8%  { transform: scaleX(0.9); }
+  }
+
+  @keyframes ball-surface-a {
+    0%, 16%   { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+    26%, 46%  { opacity: 1; transform: translateY(0); filter: blur(0); }
+    54%, 100% { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+  }
+
+  @keyframes ball-surface-b {
+    0%, 58%   { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+    68%, 86%  { opacity: 1; transform: translateY(0); filter: blur(0); }
+    94%, 100% { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ball-404 .ball-body,
+    .ball-404 .ball-shadow,
+    .ball-404 .ball-ans { animation: none; }
+    .ball-404 .ball-ans-a { opacity: 1; transform: none; filter: none; }
+  }
+</style>

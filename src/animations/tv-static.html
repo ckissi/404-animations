@@ -1,0 +1,132 @@
+<!-- 404 · No Signal — a retro CRT set flickers between static and colour
+     bars, unable to tune the page in. Pure CSS, self-contained, no
+     dependencies. Retheme via the custom properties on .tv-404.
+     MIT licensed — 404.colorion.co -->
+<div class="tv-404" role="img" aria-label="404 error animation: a retro TV showing static and a NO SIGNAL 404 message">
+  <div class="tv-set">
+    <div class="tv-screen">
+      <div class="tv-static"></div>
+      <div class="tv-bars"></div>
+      <span class="tv-msg">NO SIGNAL<br />404</span>
+    </div>
+    <div class="tv-panel">
+      <span class="tv-knob"></span>
+      <span class="tv-knob"></span>
+    </div>
+  </div>
+  <div class="tv-stand"></div>
+</div>
+
+<style>
+  .tv-404 {
+    --tv-ink: #0f191e;
+    --tv-accent: #f4ff2b;
+    --tv-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .tv-set {
+    display: flex;
+    gap: 6px;
+    width: 150px;
+    box-sizing: border-box;
+    padding: 8px;
+    background: var(--tv-ink);
+    border-radius: 12px;
+  }
+
+  .tv-screen {
+    position: relative;
+    flex: 1;
+    height: 84px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--tv-shell) 6%, var(--tv-ink));
+  }
+
+  /* Fine scanlines that jitter to read as noise. */
+  .tv-static {
+    position: absolute;
+    inset: -4px;
+    background: repeating-linear-gradient(0deg,
+      color-mix(in srgb, var(--tv-shell) 24%, transparent) 0 2px,
+      transparent 2px 4px);
+    opacity: 0.55;
+    animation: tv-jitter 0.4s steps(4) infinite;
+  }
+
+  /* Colour bars break through now and then. */
+  .tv-bars {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(90deg,
+      var(--tv-accent) 0 20%,
+      color-mix(in srgb, var(--tv-shell) 70%, var(--tv-ink)) 20% 40%,
+      var(--tv-accent) 40% 60%,
+      color-mix(in srgb, var(--tv-shell) 70%, var(--tv-ink)) 60% 80%,
+      var(--tv-accent) 80% 100%);
+    animation: tv-flash 3.5s infinite;
+  }
+
+  .tv-msg {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+    color: var(--tv-accent);
+    animation: tv-blink 1.6s steps(1) infinite;
+  }
+
+  .tv-panel {
+    display: grid;
+    align-content: center;
+    gap: 7px;
+  }
+  .tv-knob {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--tv-shell) 55%, var(--tv-ink));
+  }
+
+  .tv-stand {
+    width: 44px;
+    height: 6px;
+    margin-top: 3px;
+    border-radius: 0 0 4px 4px;
+    background: var(--tv-ink);
+  }
+
+  @keyframes tv-jitter {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-4px); }
+  }
+
+  @keyframes tv-flash {
+    0%, 86%, 100% { opacity: 0; }
+    88%, 94%      { opacity: 0.85; }
+    91%           { opacity: 0.2; }
+  }
+
+  @keyframes tv-blink {
+    0%, 60%   { opacity: 1; }
+    61%, 72%  { opacity: 0.25; }
+    73%, 100% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tv-404 .tv-static,
+    .tv-404 .tv-bars,
+    .tv-404 .tv-msg { animation: none; }
+    .tv-404 .tv-bars { opacity: 0; }
+    .tv-404 .tv-msg { opacity: 1; }
+  }
+</style>

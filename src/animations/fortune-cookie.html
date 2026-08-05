@@ -1,0 +1,109 @@
+<!-- 404 · No Fortune — the cookie cracks open and the slip inside just reads
+     404. Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .fc-404. MIT licensed — 404.colorion.co -->
+<div class="fc-404" role="img" aria-label="404 error animation: a fortune cookie cracking open on a slip that reads 404">
+  <div class="fc-cookie">
+    <span class="fc-slip">404</span>
+    <span class="fc-half fc-left"></span>
+    <span class="fc-half fc-right"></span>
+  </div>
+  <span class="fc-label">NO FORTUNE</span>
+</div>
+
+<style>
+  .fc-404 {
+    --fc-ink: #0f191e;
+    --fc-accent: #f4ff2b;
+    --fc-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .fc-cookie {
+    position: relative;
+    width: 96px;
+    height: 60px;
+  }
+
+  /* The slip of paper, tucked between the halves, rising as they part. */
+  .fc-slip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 22px;
+    margin: -11px 0 0 -17px;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--fc-ink);
+    background: var(--fc-shell);
+    border: 1px solid var(--fc-ink);
+    border-radius: 2px;
+    opacity: 0;
+    z-index: 0;
+    animation: fc-slip 6s ease-in-out infinite;
+  }
+
+  /* Two golden half-shells that meet in the middle. */
+  .fc-half {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 60px;
+    box-sizing: border-box;
+    background: var(--fc-accent);
+    border: 2px solid var(--fc-ink);
+    z-index: 1;
+  }
+  .fc-left {
+    left: 16px;
+    border-radius: 60px 6px 6px 60px;
+    border-right: none;
+    transform-origin: left center;
+    animation: fc-crack-l 6s ease-in-out infinite;
+  }
+  .fc-right {
+    right: 16px;
+    border-radius: 6px 60px 60px 6px;
+    border-left: none;
+    transform-origin: right center;
+    animation: fc-crack-r 6s ease-in-out infinite;
+  }
+
+  .fc-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-indent: 0.24em;
+    color: var(--fc-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes fc-crack-l {
+    0%, 22%  { transform: translateX(0) rotate(0deg); }
+    48%, 82% { transform: translateX(-12px) rotate(-14deg); }
+    100%     { transform: translateX(0) rotate(0deg); }
+  }
+  @keyframes fc-crack-r {
+    0%, 22%  { transform: translateX(0) rotate(0deg); }
+    48%, 82% { transform: translateX(12px) rotate(14deg); }
+    100%     { transform: translateX(0) rotate(0deg); }
+  }
+  @keyframes fc-slip {
+    0%, 24%   { opacity: 0; transform: translateY(6px); }
+    46%, 84%  { opacity: 1; transform: translateY(-6px); }
+    100%      { opacity: 0; transform: translateY(6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fc-404 .fc-half,
+    .fc-404 .fc-slip { animation: none; }
+    .fc-404 .fc-left  { transform: translateX(-12px) rotate(-14deg); }
+    .fc-404 .fc-right { transform: translateX(12px) rotate(14deg); }
+    .fc-404 .fc-slip  { opacity: 1; transform: translateY(-6px); }
+  }
+</style>

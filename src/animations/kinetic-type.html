@@ -1,0 +1,71 @@
+<!-- 404 · On Repeat — kinetic typography: three marquee bands scroll NOT
+     FOUND past each other, the middle one inverted and tilted. Pure CSS,
+     self-contained, no dependencies. Retheme via the custom properties on
+     .kn-404. MIT licensed — 404.colorion.co -->
+<div class="kn-404" role="img" aria-label="404 error animation: kinetic typography, NOT FOUND scrolling on repeat">
+  <div class="kn-band kn-plain">
+    <div class="kn-track kn-fast">
+      <span>404&nbsp;·&nbsp;NOT&nbsp;FOUND&nbsp;·&nbsp;</span>
+      <span>404&nbsp;·&nbsp;NOT&nbsp;FOUND&nbsp;·&nbsp;</span>
+    </div>
+  </div>
+  <div class="kn-band kn-mid">
+    <div class="kn-track kn-rev">
+      <span>PAGE&nbsp;MISSING&nbsp;·&nbsp;</span>
+      <span>PAGE&nbsp;MISSING&nbsp;·&nbsp;</span>
+    </div>
+  </div>
+  <div class="kn-band kn-plain">
+    <div class="kn-track kn-slow">
+      <span>404&nbsp;·&nbsp;NOT&nbsp;FOUND&nbsp;·&nbsp;</span>
+      <span>404&nbsp;·&nbsp;NOT&nbsp;FOUND&nbsp;·&nbsp;</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .kn-404 {
+    --kn-ink: #0f191e;
+    --kn-accent: #f4ff2b;
+    --kn-shell: #ffffff;
+    display: grid;
+    gap: 5px;
+    width: 152px;
+    overflow: hidden;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .kn-band { overflow: hidden; }
+
+  .kn-track {
+    display: flex;
+    width: max-content;
+    animation: kn-scroll 8s linear infinite;
+  }
+  .kn-track span {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: var(--kn-ink);
+  }
+
+  .kn-fast { animation-duration: 7s; }
+  .kn-slow { animation-duration: 11s; }
+  .kn-rev  { animation-duration: 6s; animation-direction: reverse; }
+
+  /* Inverted, tilted centre band for contrast. */
+  .kn-mid {
+    background: var(--kn-accent);
+    transform: rotate(-3deg) scale(1.06);
+  }
+
+  @keyframes kn-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kn-404 .kn-track { animation: none; }
+  }
+</style>

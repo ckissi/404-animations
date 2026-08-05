@@ -1,0 +1,148 @@
+<!-- 404 · Pneumatic Post — the capsule whooshes off to fetch your page and
+     comes back empty. Pure CSS, self-contained, no dependencies. Retheme via
+     the custom properties on .tb-404. MIT licensed — 404.colorion.co -->
+<div class="tb-404" role="img" aria-label="404 error animation: a pneumatic tube capsule returns empty">
+  <div class="tb-pipe">
+    <div class="tb-capsule"></div>
+  </div>
+  <div class="tb-base">
+    <span class="tb-led"></span>
+    <span class="tb-read tb-read-a">FETCHING</span>
+    <span class="tb-read tb-read-b">404 EMPTY</span>
+  </div>
+</div>
+
+<style>
+  .tb-404 {
+    --tb-ink: #0f191e;
+    --tb-accent: #f4ff2b;
+    --tb-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .tb-pipe {
+    position: relative;
+    width: 36px;
+    height: 96px;
+    box-sizing: border-box;
+    border: 3px solid var(--tb-ink);
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+    background: color-mix(in srgb, var(--tb-ink) 6%, transparent);
+    overflow: hidden;
+  }
+
+  /* glass highlight */
+  .tb-pipe::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 0;
+    left: 6px;
+    width: 3px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--tb-shell) 65%, transparent);
+  }
+
+  .tb-capsule {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 20px;
+    height: 34px;
+    margin-left: -10px;
+    box-sizing: border-box;
+    background: var(--tb-accent);
+    border: 2px solid var(--tb-ink);
+    border-radius: 10px;
+    transform: translateY(56px);
+    animation: tb-travel 7s infinite;
+  }
+
+  /* capsule seam */
+  .tb-capsule::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 50%;
+    height: 2px;
+    background: var(--tb-ink);
+  }
+
+  .tb-base {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 108px;
+    height: 26px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background: var(--tb-ink);
+    border-radius: 6px;
+  }
+
+  .tb-led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--tb-accent);
+    animation: tb-led 7s infinite;
+  }
+
+  .tb-read {
+    position: absolute;
+    left: 26px;
+    right: 10px;
+    text-align: center;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--tb-accent);
+    opacity: 0;
+  }
+
+  .tb-read-a { animation: tb-read-a 7s infinite; }
+  .tb-read-b { animation: tb-read-b 7s infinite; }
+
+  /* Timeline (7s): rest → whoosh up and away → searching → drop back with a
+     bounce → the bad news. */
+  @keyframes tb-travel {
+    0%, 10%   { transform: translateY(56px); }
+    13%       { transform: translateY(48px); } /* pre-launch dip */
+    22%       { transform: translateY(-44px); }
+    55%       { transform: translateY(-44px); }
+    64%       { transform: translateY(56px); }
+    68%       { transform: translateY(47px); } /* bounce */
+    72%, 100% { transform: translateY(56px); }
+  }
+
+  @keyframes tb-led {
+    0%, 14%, 72%, 100% { opacity: 0.25; }
+    18%, 26%, 34%, 42%, 50%, 58% { opacity: 1; }
+    22%, 30%, 38%, 46%, 54%      { opacity: 0.25; }
+  }
+
+  @keyframes tb-read-a {
+    0%, 14%   { opacity: 0; }
+    18%, 60%  { opacity: 1; }
+    64%, 100% { opacity: 0; }
+  }
+
+  @keyframes tb-read-b {
+    0%, 68%       { opacity: 0; }
+    72%, 78%, 84%, 96% { opacity: 1; }
+    81%           { opacity: 0.2; }
+    100%          { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tb-404 .tb-capsule,
+    .tb-404 .tb-led,
+    .tb-404 .tb-read { animation: none; }
+    .tb-404 .tb-read-b { opacity: 1; }
+  }
+</style>

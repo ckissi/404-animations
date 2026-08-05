@@ -1,0 +1,179 @@
+<!-- 404 · Out of Stock — a vending machine with your page stuck in the coil.
+     Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .vend-404. MIT licensed — 404.colorion.co -->
+<div class="vend-404" role="img" aria-label="404 error animation: a vending machine with the requested page stuck in its coil">
+  <div class="vend-machine">
+    <div class="vend-display">
+      <span class="vend-display-code">404</span>
+      <span class="vend-display-msg">STUCK</span>
+    </div>
+    <div class="vend-window">
+      <div class="vend-slot">
+        <span class="vend-item">200</span>
+        <span class="vend-coil"></span>
+      </div>
+      <div class="vend-slot">
+        <span class="vend-item vend-item-stuck">404</span>
+        <span class="vend-coil vend-coil-spin"></span>
+      </div>
+      <div class="vend-slot">
+        <span class="vend-item">302</span>
+        <span class="vend-coil"></span>
+      </div>
+    </div>
+    <div class="vend-tray"></div>
+  </div>
+</div>
+
+<style>
+  .vend-404 {
+    --v-ink: #0f191e;
+    --v-accent: #f4ff2b;
+    --v-shell: #ffffff;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .vend-machine {
+    position: relative;
+    width: 108px;
+    height: 148px;
+    padding: 10px 10px 28px;
+    box-sizing: border-box;
+    background: var(--v-shell);
+    border: 3px solid var(--v-ink);
+    border-radius: 10px;
+    animation: vend-thump 5s ease-in-out infinite;
+  }
+
+  .vend-display {
+    position: relative;
+    height: 18px;
+    margin-bottom: 8px;
+    background: var(--v-ink);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .vend-display span {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    color: var(--v-accent);
+  }
+
+  .vend-display-code { animation: vend-flash-a 5s infinite; }
+  .vend-display-msg  { animation: vend-flash-b 5s infinite; }
+
+  .vend-window {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    height: 62px;
+    padding: 6px 5px 4px;
+    box-sizing: border-box;
+    border: 2px solid var(--v-ink);
+    border-radius: 6px;
+  }
+
+  .vend-slot {
+    position: relative;
+    flex: 1;
+    display: grid;
+    place-items: end center;
+  }
+
+  .vend-item {
+    width: 20px;
+    height: 26px;
+    margin-bottom: 9px;
+    display: grid;
+    place-items: center;
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--v-ink);
+    background: var(--v-shell);
+    border: 2px solid var(--v-ink);
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+
+  .vend-item-stuck {
+    background: var(--v-accent);
+    transform-origin: 50% 100%;
+    animation: vend-wiggle 5s ease-in-out infinite;
+  }
+
+  .vend-coil {
+    position: absolute;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    border: 2px dashed var(--v-ink);
+    border-radius: 50%;
+    background: var(--v-shell);
+  }
+
+  .vend-coil-spin { animation: vend-spin 5s linear infinite; }
+
+  .vend-tray {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 9px;
+    height: 10px;
+    background: var(--v-ink);
+    border-radius: 3px;
+  }
+
+  /* The coil turns… */
+  @keyframes vend-spin {
+    0%, 12%   { transform: rotate(0); }
+    50%, 100% { transform: rotate(1.5turn); }
+  }
+
+  /* …the page leans further and further out, survives a thump, never drops. */
+  @keyframes vend-wiggle {
+    0%, 8%    { transform: rotate(0); }
+    20%       { transform: rotate(9deg); }
+    32%       { transform: rotate(5deg); }
+    44%       { transform: rotate(12deg); }
+    54%       { transform: rotate(-4deg); }
+    60%       { transform: rotate(10deg); }
+    68%       { transform: rotate(7deg); }
+    82%, 100% { transform: rotate(0); }
+  }
+
+  /* Somebody thumps the machine. It does not help. */
+  @keyframes vend-thump {
+    0%, 52%, 64%, 100% { transform: translateX(0) rotate(0); }
+    54% { transform: translateX(-3px) rotate(-0.8deg); }
+    56% { transform: translateX(3px) rotate(0.8deg); }
+    58% { transform: translateX(-2px); }
+    60% { transform: translateX(2px); }
+    62% { transform: translateX(-1px); }
+  }
+
+  @keyframes vend-flash-a {
+    0%, 60%, 96%, 100% { opacity: 1; }
+    64%, 92%           { opacity: 0; }
+  }
+
+  @keyframes vend-flash-b {
+    0%, 60%, 96%, 100% { opacity: 0; }
+    64%, 92%           { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vend-404 .vend-machine,
+    .vend-404 .vend-machine * { animation: none; }
+    .vend-404 .vend-item-stuck { transform: rotate(10deg); }
+  }
+</style>

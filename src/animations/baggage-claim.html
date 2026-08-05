@@ -1,0 +1,133 @@
+<!-- 404 · Baggage Claim — suitcases circle the carousel, but yours is only a
+     dashed outline that never turns up. Pure CSS, self-contained, no
+     dependencies. Retheme via the custom properties on .bag-404.
+     MIT licensed — 404.colorion.co -->
+<div class="bag-404" role="img" aria-label="404 error animation: a baggage carousel where one suitcase is missing">
+  <span class="bag-sign">BELT 4 · PAGE: MISSING</span>
+  <div class="bag-belt">
+    <div class="bag-train">
+      <span class="bag-case"></span>
+      <span class="bag-case bag-case-ghost">404</span>
+      <span class="bag-case bag-case-tall"></span>
+      <span class="bag-case"></span>
+      <span class="bag-case bag-case-ghost">404</span>
+      <span class="bag-case bag-case-tall"></span>
+    </div>
+  </div>
+  <div class="bag-track"></div>
+</div>
+
+<style>
+  .bag-404 {
+    --bag-ink: #0f191e;
+    --bag-accent: #f4ff2b;
+    --bag-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .bag-sign {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    padding: 4px 10px;
+    color: var(--bag-accent);
+    background: var(--bag-ink);
+    border-radius: 4px;
+  }
+
+  .bag-belt {
+    width: 172px;
+    overflow: hidden;
+  }
+
+  /* Two identical sets of cases; sliding by exactly one set (-50%) makes the
+     loop seamless. Each case owns a fixed 60px lane (36px case + margin). */
+  .bag-train {
+    display: flex;
+    width: 360px;
+    animation: bag-roll 7s linear infinite;
+  }
+
+  .bag-case {
+    position: relative;
+    flex: none;
+    width: 36px;
+    height: 26px;
+    margin-right: 24px;
+    align-self: end;
+    box-sizing: border-box;
+    background: var(--bag-shell);
+    border: 2px solid var(--bag-ink);
+    border-radius: 5px;
+  }
+
+  /* handle */
+  .bag-case::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 14px;
+    height: 10px;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    border: 2px solid var(--bag-ink);
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .bag-case-tall { height: 32px; width: 26px; }
+
+  /* Your suitcase: present only in outline. */
+  .bag-case-ghost {
+    display: grid;
+    place-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--bag-ink);
+    background: color-mix(in srgb, var(--bag-accent) 45%, transparent);
+    border-style: dashed;
+    animation: bag-flicker 7s linear infinite;
+  }
+
+  .bag-case-ghost::before { border-style: dashed; border-bottom: none; }
+
+  .bag-track {
+    width: 172px;
+    height: 9px;
+    border-radius: 5px;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--bag-ink) 0 6px,
+      color-mix(in srgb, var(--bag-ink) 55%, var(--bag-shell)) 6px 12px
+    );
+    background-size: 200% 100%;
+    animation: bag-track 0.7s linear infinite;
+  }
+
+  @keyframes bag-roll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes bag-track {
+    from { background-position: 0 0; }
+    to   { background-position: 17px 0; }
+  }
+
+  @keyframes bag-flicker {
+    0%, 34%, 40%, 100% { opacity: 1; }
+    36%, 38%           { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bag-404 .bag-train,
+    .bag-404 .bag-track,
+    .bag-404 .bag-case-ghost { animation: none; }
+    .bag-404 .bag-train { transform: translateX(-30px); }
+  }
+</style>

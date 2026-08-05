@@ -1,0 +1,121 @@
+<!-- 404 · Grim Forecast — a storm cloud rains fours and zeroes, with the
+     occasional bolt of lightning. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .rain-404.
+     MIT licensed — 404.colorion.co -->
+<div class="rain-404" role="img" aria-label="404 error animation: a storm cloud raining the digits 4, 0, 4">
+  <div class="rain-sky">
+    <div class="rain-cloud"></div>
+    <span class="rain-bolt"></span>
+    <span class="rain-drop" style="--i: 0">4</span>
+    <span class="rain-drop" style="--i: 1">0</span>
+    <span class="rain-drop" style="--i: 2">4</span>
+    <span class="rain-drop" style="--i: 3">0</span>
+    <span class="rain-drop" style="--i: 4">4</span>
+  </div>
+  <span class="rain-label">FORECAST: NO PAGES</span>
+</div>
+
+<style>
+  .rain-404 {
+    --rn-ink: #0f191e;
+    --rn-accent: #f4ff2b;
+    --rn-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .rain-sky {
+    position: relative;
+    width: 150px;
+    height: 104px;
+  }
+
+  /* Storm-cloud silhouette: a pill with two bumps. */
+  .rain-cloud {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 96px;
+    height: 30px;
+    margin-left: -48px;
+    background: var(--rn-ink);
+    border-radius: 9999px;
+    animation: rain-drift 6s ease-in-out infinite;
+  }
+
+  .rain-cloud::before,
+  .rain-cloud::after {
+    content: "";
+    position: absolute;
+    bottom: 12px;
+    border-radius: 50%;
+    background: var(--rn-ink);
+  }
+
+  .rain-cloud::before { left: 16px; width: 36px; height: 36px; }
+  .rain-cloud::after  { left: 46px; width: 26px; height: 26px; }
+
+  /* Lightning bolt, striking twice per loop. */
+  .rain-bolt {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    width: 14px;
+    height: 22px;
+    margin-left: -7px;
+    background: var(--rn-accent);
+    clip-path: polygon(60% 0, 0 55%, 42% 55%, 30% 100%, 100% 40%, 55% 40%, 90% 0);
+    opacity: 0;
+    animation: rain-strike 6s infinite;
+  }
+
+  /* Digits fall from the cloud, fading out before the ground. */
+  .rain-drop {
+    position: absolute;
+    top: 52px;
+    left: calc(50% - 44px + var(--i) * 20px);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--rn-ink);
+    opacity: 0;
+    animation: rain-fall 2.4s linear infinite;
+    animation-delay: calc(var(--i) * -0.45s);
+  }
+
+  .rain-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--rn-ink);
+    opacity: 0.7;
+  }
+
+  @keyframes rain-fall {
+    0%       { transform: translateY(0); opacity: 0; }
+    12%      { opacity: 0.9; }
+    78%      { opacity: 0.9; }
+    98%, 100% { transform: translateY(42px); opacity: 0; }
+  }
+
+  @keyframes rain-drift {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(5px); }
+  }
+
+  @keyframes rain-strike {
+    0%, 58%, 70%, 100% { opacity: 0; }
+    60%, 63%           { opacity: 1; }
+    61.5%              { opacity: 0.2; }
+    66%, 68%           { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rain-404 .rain-cloud,
+    .rain-404 .rain-bolt,
+    .rain-404 .rain-drop { animation: none; }
+    .rain-404 .rain-drop { opacity: 0.9; transform: translateY(calc(6px + var(--i) * 6px)); }
+  }
+</style>

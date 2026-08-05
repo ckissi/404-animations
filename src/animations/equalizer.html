@@ -1,0 +1,106 @@
+<!-- 404 · Dead Air — an audio equalizer bounces, then flatlines to silence
+     while 404 flashes. Pure CSS, self-contained, no dependencies. Retheme
+     via the custom properties on .eq-404. MIT licensed — 404.colorion.co -->
+<div class="eq-404" role="img" aria-label="404 error animation: an audio equalizer bouncing then flatlining, flashing 404">
+  <div class="eq-panel">
+    <div class="eq-bars">
+      <span class="eq-bar" style="--i: 0;"></span>
+      <span class="eq-bar" style="--i: 1;"></span>
+      <span class="eq-bar" style="--i: 2;"></span>
+      <span class="eq-bar" style="--i: 3;"></span>
+      <span class="eq-bar" style="--i: 4;"></span>
+      <span class="eq-bar" style="--i: 5;"></span>
+      <span class="eq-bar" style="--i: 6;"></span>
+      <span class="eq-bar" style="--i: 7;"></span>
+      <span class="eq-bar" style="--i: 8;"></span>
+    </div>
+    <span class="eq-line"></span>
+    <span class="eq-tag">404 · DEAD AIR</span>
+  </div>
+</div>
+
+<style>
+  .eq-404 {
+    --eq-ink: #0f191e;
+    --eq-accent: #f4ff2b;
+    --eq-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .eq-panel {
+    position: relative;
+    width: 150px;
+    height: 104px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: var(--eq-ink);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .eq-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 56px;
+    /* The whole bank collapses to a flat line during "dead air". */
+    transform-origin: bottom;
+    animation: eq-collapse 4.5s ease-in-out infinite;
+  }
+  .eq-bar {
+    width: 7px;
+    height: 100%;
+    border-radius: 3px;
+    background: var(--eq-accent);
+    transform-origin: bottom;
+    animation: eq-bounce 1.1s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.13s);
+  }
+
+  /* Baseline the bars sit on. */
+  .eq-line {
+    position: absolute;
+    bottom: 24px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--eq-accent) 55%, var(--eq-ink));
+  }
+
+  .eq-tag {
+    position: absolute;
+    bottom: 9px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-indent: 0.18em;
+    color: color-mix(in srgb, var(--eq-shell) 75%, var(--eq-ink));
+    animation: eq-flash 4.5s ease-in-out infinite;
+  }
+
+  @keyframes eq-bounce {
+    0%, 100% { transform: scaleY(0.22); }
+    50%      { transform: scaleY(1); }
+  }
+  @keyframes eq-collapse {
+    0%, 58%   { transform: scaleY(1); opacity: 1; }
+    72%, 88%  { transform: scaleY(0.05); opacity: 0.5; }
+    100%      { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes eq-flash {
+    0%, 58%, 100% { opacity: 0.55; }
+    72%, 88%      { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eq-404 .eq-bars,
+    .eq-404 .eq-bar,
+    .eq-404 .eq-tag { animation: none; }
+    .eq-404 .eq-bar:nth-child(odd)  { transform: scaleY(0.5); }
+    .eq-404 .eq-bar:nth-child(even) { transform: scaleY(0.8); }
+  }
+</style>

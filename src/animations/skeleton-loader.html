@@ -1,0 +1,100 @@
+<!-- 404 · Still Loading — a skeleton-screen shimmer that keeps loading and
+     only ever resolves to 404. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .sk-404.
+     MIT licensed — 404.colorion.co -->
+<div class="sk-404" role="img" aria-label="404 error animation: a loading skeleton that never resolves, flashing 404">
+  <div class="sk-card">
+    <span class="sk-avatar"></span>
+    <div class="sk-lines">
+      <span class="sk-line sk-l1"></span>
+      <span class="sk-line sk-l2"></span>
+      <span class="sk-line sk-l3"></span>
+    </div>
+    <span class="sk-badge">404</span>
+  </div>
+</div>
+
+<style>
+  .sk-404 {
+    --sk-ink: #0f191e;
+    --sk-accent: #f4ff2b;
+    --sk-shell: #ffffff;
+    --sk-bone: color-mix(in srgb, var(--sk-ink) 16%, var(--sk-shell));
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .sk-card {
+    position: relative;
+    width: 152px;
+    height: 96px;
+    box-sizing: border-box;
+    padding: 18px 16px;
+    border-radius: 14px;
+    background: var(--sk-shell);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 24px -16px rgba(0, 0, 0, 0.5);
+  }
+
+  .sk-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+  }
+  .sk-lines {
+    display: grid;
+    gap: 9px;
+  }
+  .sk-line { height: 9px; border-radius: 5px; }
+  .sk-l1 { width: 100%; }
+  .sk-l2 { width: 82%; }
+  .sk-l3 { width: 60%; }
+
+  /* Shimmer sweep across every placeholder. */
+  .sk-avatar,
+  .sk-line {
+    background: linear-gradient(90deg,
+      var(--sk-bone) 0%,
+      color-mix(in srgb, var(--sk-bone) 35%, var(--sk-shell)) 50%,
+      var(--sk-bone) 100%);
+    background-size: 200% 100%;
+    animation: sk-shimmer 1.5s linear infinite;
+  }
+
+  /* The load finally returns... an error. */
+  .sk-badge {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--sk-ink) 94%, transparent);
+    color: var(--sk-accent);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: sk-flash 5s ease-in-out infinite;
+  }
+
+  @keyframes sk-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  @keyframes sk-flash {
+    0%, 60%   { opacity: 0; }
+    68%, 88%  { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sk-404 .sk-avatar,
+    .sk-404 .sk-line,
+    .sk-404 .sk-badge { animation: none; }
+    .sk-404 .sk-badge { opacity: 1; }
+  }
+</style>

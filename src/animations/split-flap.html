@@ -1,0 +1,122 @@
+<!-- 404 · Cancelled Departure — a split-flap departure board rolls its tiles
+     to 404 and the destination line blinks CANCELLED. Pure CSS, self-contained,
+     no dependencies. Retheme via the custom properties on .flap-404.
+     MIT licensed — 404.colorion.co -->
+<div class="flap-404" role="img" aria-label="404 error animation: a split-flap departure board rolls to 404 — cancelled">
+  <div class="flap-board">
+    <span class="flap-head">DESTINATION</span>
+    <div class="flap-row">
+      <span class="flap-tile"><span class="flap-strip flap-strip-a">4<br />8<br />K<br />2<br />4</span></span>
+      <span class="flap-tile"><span class="flap-strip flap-strip-b">0<br />3<br />X<br />7<br />0</span></span>
+      <span class="flap-tile"><span class="flap-strip flap-strip-c">4<br />9<br />A<br />1<br />4</span></span>
+    </div>
+    <span class="flap-note">CANCELLED</span>
+  </div>
+</div>
+
+<style>
+  .flap-404 {
+    --fl-ink: #0f191e;
+    --fl-accent: #f4ff2b;
+    --fl-shell: #ffffff;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .flap-board {
+    display: grid;
+    justify-items: center;
+    gap: 7px;
+    padding: 12px 18px;
+    background: var(--fl-ink);
+    border-radius: 10px;
+  }
+
+  .flap-head {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-indent: 0.35em;
+    color: color-mix(in srgb, var(--fl-shell) 55%, var(--fl-ink));
+  }
+
+  .flap-row {
+    display: flex;
+    gap: 5px;
+  }
+
+  /* One split-flap tile: a tall strip of characters rolls behind a window,
+     with the tell-tale horizontal split across the middle. */
+  .flap-tile {
+    position: relative;
+    width: 24px;
+    height: 32px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--fl-shell) 12%, var(--fl-ink));
+    border-radius: 4px;
+  }
+
+  .flap-tile::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--fl-ink);
+  }
+
+  .flap-strip {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 32px;
+    color: var(--fl-accent);
+  }
+
+  /* Strips start and end on the same character, so the loop is seamless. */
+  .flap-strip-a { animation: flap-roll 7s cubic-bezier(.65,0,.35,1) infinite; }
+  .flap-strip-b { animation: flap-roll-b 7s cubic-bezier(.65,0,.35,1) infinite; }
+  .flap-strip-c { animation: flap-roll-c 7s cubic-bezier(.65,0,.35,1) infinite; }
+
+  .flap-note {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--fl-accent);
+    animation: flap-blink 7s infinite;
+  }
+
+  @keyframes flap-roll {
+    0%, 6%    { transform: translateY(0); }
+    30%, 100% { transform: translateY(-128px); }
+  }
+
+  @keyframes flap-roll-b {
+    0%, 12%   { transform: translateY(0); }
+    38%, 100% { transform: translateY(-128px); }
+  }
+
+  @keyframes flap-roll-c {
+    0%, 18%   { transform: translateY(0); }
+    46%, 100% { transform: translateY(-128px); }
+  }
+
+  @keyframes flap-blink {
+    0%, 48%                 { opacity: 0; }
+    54%, 62%, 70%, 78%, 96% { opacity: 1; }
+    58%, 66%, 74%           { opacity: 0.15; }
+    100%                    { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flap-404 .flap-strip,
+    .flap-404 .flap-note { animation: none; }
+    .flap-404 .flap-strip { transform: translateY(-128px); }
+    .flap-404 .flap-note { opacity: 1; }
+  }
+</style>

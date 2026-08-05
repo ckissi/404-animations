@@ -1,0 +1,88 @@
+<!-- 404 · No Answer — an AI assistant orb breathes and swirls, thinking, but
+     the page isn't in its training. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .ao-404 (accent + two swirl hues).
+     MIT licensed — 404.colorion.co -->
+<div class="ao-404" role="img" aria-label="404 error animation: a glowing AI orb swirling around a 404">
+  <div class="ao-stage">
+    <span class="ao-orb"></span>
+    <span class="ao-num">404</span>
+  </div>
+  <span class="ao-cap">NO ANSWER</span>
+</div>
+
+<style>
+  .ao-404 {
+    --ao-ink: #0f191e;
+    --ao-accent: #f4ff2b;
+    --ao-shell: #ffffff;
+    --ao-hue-2: #7c5cff;
+    --ao-hue-3: #22d3ee;
+    display: grid;
+    justify-items: center;
+    gap: 11px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .ao-stage {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Swirling gradient sphere that breathes and glows. */
+  .ao-orb {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+      var(--ao-accent), var(--ao-hue-2), var(--ao-hue-3), var(--ao-accent));
+    filter: blur(1px);
+    box-shadow: 0 0 22px -2px color-mix(in srgb, var(--ao-hue-2) 70%, transparent);
+    animation: ao-swirl 4s linear infinite, ao-breathe 3s ease-in-out infinite;
+  }
+  /* Glossy top-left highlight to read as a sphere. */
+  .ao-orb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(38% 32% at 34% 30%,
+      color-mix(in srgb, var(--ao-shell) 85%, transparent), transparent 70%);
+  }
+
+  .ao-num {
+    position: absolute;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--ao-ink);
+    mix-blend-mode: soft-light;
+    animation: ao-think 3s ease-in-out infinite;
+  }
+
+  .ao-cap {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    color: var(--ao-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes ao-swirl { to { transform: rotate(360deg); } }
+  @keyframes ao-breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+  @keyframes ao-think {
+    0%, 100% { opacity: 0.9; }
+    50%      { opacity: 0.55; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ao-404 .ao-orb,
+    .ao-404 .ao-num { animation: none; }
+  }
+</style>

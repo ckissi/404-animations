@@ -1,0 +1,83 @@
+<!-- 404 · Bad Guess — Wordle-style tiles flip to reveal 4 0 4 (nailed) and
+     N F (absent): the page was never a valid guess. Pure CSS, self-contained,
+     no dependencies. Retheme via the custom properties on .wd-404.
+     MIT licensed — 404.colorion.co -->
+<div class="wd-404" role="img" aria-label="404 error animation: Wordle-style tiles flipping to reveal 4 0 4 N F">
+  <div class="wd-row">
+    <span class="wd-tile wd-hit"  style="--i: 0;">4</span>
+    <span class="wd-tile wd-hit"  style="--i: 1;">0</span>
+    <span class="wd-tile wd-hit"  style="--i: 2;">4</span>
+    <span class="wd-tile wd-miss" style="--i: 3;">N</span>
+    <span class="wd-tile wd-miss" style="--i: 4;">F</span>
+  </div>
+</div>
+
+<style>
+  .wd-404 {
+    --wd-ink: #0f191e;
+    --wd-accent: #f4ff2b;
+    --wd-shell: #ffffff;
+    --wd-absent: color-mix(in srgb, var(--wd-ink) 45%, var(--wd-shell));
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .wd-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .wd-tile {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--wd-ink);
+    background: transparent;
+    border: 2px solid color-mix(in srgb, var(--wd-ink) 35%, var(--wd-shell));
+    border-radius: 4px;
+    /* Flip on the X axis; the fill swaps at the edge-on midpoint. */
+    animation: wd-flip 5.5s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.22s);
+  }
+
+  /* Correct tiles land on accent, wrong tiles on a muted "absent" grey. */
+  .wd-hit  { --wd-face: var(--wd-accent); --wd-face-fg: var(--wd-ink); }
+  .wd-miss { --wd-face: var(--wd-absent); --wd-face-fg: var(--wd-shell); }
+
+  @keyframes wd-flip {
+    0%, 6% {
+      transform: rotateX(0deg);
+      background: transparent;
+      color: var(--wd-ink);
+      border-color: color-mix(in srgb, var(--wd-ink) 35%, var(--wd-shell));
+    }
+    13% { transform: rotateX(90deg); }
+    20%, 82% {
+      transform: rotateX(0deg);
+      background: var(--wd-face);
+      color: var(--wd-face-fg);
+      border-color: var(--wd-face);
+    }
+    90% { transform: rotateX(90deg); }
+    97%, 100% {
+      transform: rotateX(0deg);
+      background: transparent;
+      color: var(--wd-ink);
+      border-color: color-mix(in srgb, var(--wd-ink) 35%, var(--wd-shell));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wd-404 .wd-tile {
+      animation: none;
+      background: var(--wd-face);
+      color: var(--wd-face-fg);
+      border-color: var(--wd-face);
+    }
+  }
+</style>

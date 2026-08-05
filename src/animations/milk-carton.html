@@ -1,0 +1,89 @@
+<!-- 404 · Missing Page — the old milk-carton missing notice, rocking gently
+     on the shelf. Pure CSS, self-contained, no dependencies. Retheme via the
+     custom properties on .mk-404. MIT licensed — 404.colorion.co -->
+<div class="mk-404" role="img" aria-label="404 error animation: a missing-page notice printed on a milk carton">
+  <div class="mk-carton">
+    <span class="mk-banner">MISSING</span>
+    <div class="mk-photo">404</div>
+    <span class="mk-cap">HAVE YOU SEEN<br />THIS PAGE?</span>
+  </div>
+</div>
+
+<style>
+  .mk-404 {
+    --mk-ink: #0f191e;
+    --mk-accent: #f4ff2b;
+    --mk-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  /* Gable-topped carton silhouette, filled in ink so it reads on the
+     pale stage; the printed notice sits inside. */
+  .mk-carton {
+    position: relative;
+    width: 90px;
+    height: 122px;
+    box-sizing: border-box;
+    padding: 28px 9px 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    background: var(--mk-ink);
+    clip-path: polygon(0 20%, 50% 2%, 100% 20%, 100% 100%, 0 100%);
+    transform-origin: 50% 100%;
+    animation: mk-rock 4.5s ease-in-out infinite;
+  }
+
+  .mk-banner {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+    padding: 1px 5px;
+    color: var(--mk-ink);
+    background: var(--mk-accent);
+    border-radius: 2px;
+  }
+
+  .mk-photo {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 34px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--mk-shell);
+    border: 1.5px dashed color-mix(in srgb, var(--mk-shell) 55%, var(--mk-ink));
+    animation: mk-fade 4.5s ease-in-out infinite;
+  }
+
+  .mk-cap {
+    font-size: 6.5px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+    text-align: center;
+    color: color-mix(in srgb, var(--mk-shell) 70%, var(--mk-ink));
+  }
+
+  @keyframes mk-rock {
+    0%, 100% { transform: rotate(-3deg); }
+    50%      { transform: rotate(3deg); }
+  }
+
+  /* The photo of the missing page keeps fading, as if it were never
+     quite there. */
+  @keyframes mk-fade {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mk-404 .mk-carton,
+    .mk-404 .mk-photo { animation: none; }
+    .mk-404 .mk-photo { opacity: 0.6; }
+  }
+</style>

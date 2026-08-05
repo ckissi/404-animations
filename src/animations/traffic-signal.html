@@ -1,0 +1,118 @@
+<!-- 404 · Dead End — a traffic signal that can only ever show 4, 0, 4.
+     Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .sg-404. MIT licensed — 404.colorion.co -->
+<div class="sg-404" role="img" aria-label="404 error animation: a traffic signal lighting up 4, then 0, then 4">
+  <div class="sg-head">
+    <span class="sg-lamp sg-lamp-a">4</span>
+    <span class="sg-lamp sg-lamp-b">0</span>
+    <span class="sg-lamp sg-lamp-c">4</span>
+  </div>
+  <div class="sg-pole"></div>
+</div>
+
+<style>
+  .sg-404 {
+    --sg-ink: #0f191e;
+    --sg-accent: #f4ff2b;
+    --sg-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .sg-head {
+    display: grid;
+    gap: 7px;
+    padding: 9px;
+    background: var(--sg-ink);
+    border-radius: 12px;
+  }
+
+  .sg-lamp {
+    width: 27px;
+    height: 27px;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+    color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+    background: transparent;
+  }
+
+  .sg-lamp-a { animation: sg-lit-a 6s infinite; }
+  .sg-lamp-b { animation: sg-lit-b 6s infinite; }
+  .sg-lamp-c { animation: sg-lit-c 6s infinite; }
+
+  .sg-pole {
+    width: 7px;
+    height: 26px;
+    background: var(--sg-ink);
+  }
+
+  /* Timeline (6s): 4 → 0 → 4 in sequence, then all three flash together
+     twice, as if the controller has given up. */
+  @keyframes sg-lit-a {
+    0%, 4%, 30%, 78%, 87%, 100% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+    8%, 26%, 80%, 85%, 89%, 94% {
+      background: var(--sg-accent);
+      color: var(--sg-ink);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--sg-accent) 80%, transparent);
+    }
+    91% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+  }
+
+  @keyframes sg-lit-b {
+    0%, 28%, 54%, 78%, 87%, 100% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+    32%, 50%, 80%, 85%, 89%, 94% {
+      background: var(--sg-accent);
+      color: var(--sg-ink);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--sg-accent) 80%, transparent);
+    }
+    91% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+  }
+
+  @keyframes sg-lit-c {
+    0%, 52%, 76%, 87%, 100% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+    56%, 74%, 80%, 85%, 89%, 94% {
+      background: var(--sg-accent);
+      color: var(--sg-ink);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--sg-accent) 80%, transparent);
+    }
+    91% {
+      background: transparent;
+      color: color-mix(in srgb, var(--sg-shell) 30%, var(--sg-ink));
+      box-shadow: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sg-404 .sg-lamp { animation: none; }
+    .sg-404 .sg-lamp {
+      background: var(--sg-accent);
+      color: var(--sg-ink);
+    }
+  }
+</style>

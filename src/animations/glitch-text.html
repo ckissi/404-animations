@@ -1,0 +1,121 @@
+<!-- 404 · Signal Lost — a glitching, RGB-split 404 with datamosh slices.
+     Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .gt-404 (the two chroma props drive the split).
+     MIT licensed — 404.colorion.co -->
+<div class="gt-404" role="img" aria-label="404 error animation: a glitching, RGB-split 404 losing signal">
+  <div class="gt-screen">
+    <span class="gt-text" data-text="404" aria-hidden="true">404</span>
+    <span class="gt-tag">SIGNAL LOST</span>
+  </div>
+</div>
+
+<style>
+  .gt-404 {
+    --gt-ink: #0f191e;
+    --gt-accent: #f4ff2b;
+    --gt-shell: #ffffff;
+    --gt-chroma-a: #00eaff;
+    --gt-chroma-b: #ff2bd0;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .gt-screen {
+    position: relative;
+    width: 150px;
+    height: 104px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    background: var(--gt-ink);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  /* Faint CRT scanlines. */
+  .gt-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+      transparent 0 3px,
+      color-mix(in srgb, var(--gt-shell) 7%, transparent) 3px 4px);
+  }
+
+  .gt-text {
+    position: relative;
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--gt-shell);
+    animation: gt-jump 3s steps(1) infinite;
+  }
+  .gt-text::before,
+  .gt-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: screen;
+  }
+  .gt-text::before {
+    color: var(--gt-chroma-a);
+    animation: gt-a 2.2s infinite linear alternate;
+  }
+  .gt-text::after {
+    color: var(--gt-chroma-b);
+    animation: gt-b 1.8s infinite linear alternate;
+  }
+
+  .gt-tag {
+    position: relative;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--gt-accent);
+    animation: gt-blink 1.2s steps(1) infinite;
+  }
+
+  /* Chroma copies slice and slide independently. */
+  @keyframes gt-a {
+    0%   { clip-path: inset(8% 0 82% 0);  transform: translateX(-3px); }
+    20%  { clip-path: inset(40% 0 38% 0); transform: translateX(3px); }
+    40%  { clip-path: inset(70% 0 8% 0);  transform: translateX(-2px); }
+    60%  { clip-path: inset(22% 0 60% 0); transform: translateX(2px); }
+    80%  { clip-path: inset(55% 0 22% 0); transform: translateX(-3px); }
+    100% { clip-path: inset(30% 0 50% 0); transform: translateX(2px); }
+  }
+  @keyframes gt-b {
+    0%   { clip-path: inset(66% 0 12% 0); transform: translateX(3px); }
+    25%  { clip-path: inset(14% 0 68% 0); transform: translateX(-3px); }
+    50%  { clip-path: inset(48% 0 30% 0); transform: translateX(2px); }
+    75%  { clip-path: inset(30% 0 52% 0); transform: translateX(-2px); }
+    100% { clip-path: inset(58% 0 20% 0); transform: translateX(3px); }
+  }
+  @keyframes gt-jump {
+    0%, 92%, 100% { transform: translate(0, 0); }
+    93% { transform: translate(-2px, 1px); }
+    95% { transform: translate(2px, -1px); }
+    97% { transform: translate(-1px, 0); }
+  }
+  @keyframes gt-blink {
+    0%, 70%   { opacity: 1; }
+    71%, 85%  { opacity: 0.2; }
+    86%, 100% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gt-404 .gt-text,
+    .gt-404 .gt-text::before,
+    .gt-404 .gt-text::after,
+    .gt-404 .gt-tag { animation: none; }
+    .gt-404 .gt-text::before { clip-path: none; transform: translateX(-2px); }
+    .gt-404 .gt-text::after  { clip-path: none; transform: translateX(2px); }
+  }
+</style>

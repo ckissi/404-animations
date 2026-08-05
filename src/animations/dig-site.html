@@ -1,0 +1,128 @@
+<!-- 404 · Dig Site — an archaeology brush sweeps away the dirt to reveal a
+     fossilised 404. Pure CSS, self-contained, no dependencies. Retheme via
+     the custom properties on .dg-404. MIT licensed — 404.colorion.co -->
+<div class="dg-404" role="img" aria-label="404 error animation: a brush excavates a fossilised 404 from the dirt">
+  <div class="dg-pit">
+    <span class="dg-fossil">404</span>
+    <div class="dg-dirt"></div>
+    <div class="dg-brush"></div>
+  </div>
+  <span class="dg-tag">EXCAVATION IN PROGRESS</span>
+</div>
+
+<style>
+  .dg-404 {
+    --dg-ink: #0f191e;
+    --dg-accent: #f4ff2b;
+    --dg-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .dg-pit {
+    position: relative;
+    width: 158px;
+    height: 74px;
+    box-sizing: border-box;
+    border: 3px solid var(--dg-ink);
+    border-radius: 10px;
+    background: var(--dg-shell);
+    overflow: hidden;
+  }
+
+  .dg-fossil {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-indent: 0.18em;
+    color: var(--dg-ink);
+    transform: rotate(-3deg);
+  }
+
+  /* The overburden: hatched dirt hiding the fossil, cleared from the left in
+     three brush passes, then quietly re-buried so the dig starts again. */
+  .dg-dirt {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--dg-ink) 30%, var(--dg-shell)) 0 5px,
+      color-mix(in srgb, var(--dg-ink) 16%, var(--dg-shell)) 5px 10px
+    );
+    animation: dg-clear 9s infinite;
+  }
+
+  .dg-brush {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 34px;
+    height: 10px;
+    border-radius: 5px 5px 2px 2px;
+    background: var(--dg-ink);
+    transform: translateX(4px) rotate(-6deg);
+    animation: dg-sweep 9s ease-in-out infinite;
+  }
+
+  /* bristles */
+  .dg-brush::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 3px;
+    right: 3px;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--dg-accent) 0 3px,
+      transparent 3px 5px
+    );
+  }
+
+  .dg-tag {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    color: var(--dg-ink);
+    opacity: 0.7;
+  }
+
+  /* Each left-to-right stroke uncovers another third. At the end the dirt
+     fades back over the fossil while fully clipped, then reappears whole. */
+  @keyframes dg-clear {
+    0%, 8%   { clip-path: inset(0 0 0 0); opacity: 1; }
+    18%      { clip-path: inset(0 0 0 34%); }
+    32%      { clip-path: inset(0 0 0 34%); }
+    42%      { clip-path: inset(0 0 0 67%); }
+    56%      { clip-path: inset(0 0 0 67%); }
+    66%, 84% { clip-path: inset(0 0 0 100%); opacity: 1; }
+    88%      { clip-path: inset(0 0 0 100%); opacity: 0; }
+    90%      { clip-path: inset(0 0 0 0); opacity: 0; }
+    98%, 100% { clip-path: inset(0 0 0 0); opacity: 1; }
+  }
+
+  @keyframes dg-sweep {
+    0%, 8%  { transform: translateX(4px) rotate(-6deg); }
+    18%     { transform: translateX(52px) rotate(6deg); }
+    25%     { transform: translateX(30px) rotate(-4deg); }
+    42%     { transform: translateX(104px) rotate(6deg); }
+    49%     { transform: translateX(82px) rotate(-4deg); }
+    66%     { transform: translateX(122px) rotate(6deg); }
+    80%     { transform: translateX(122px) rotate(0); }
+    98%, 100% { transform: translateX(4px) rotate(-6deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dg-404 .dg-dirt,
+    .dg-404 .dg-brush { animation: none; }
+    .dg-404 .dg-dirt { clip-path: inset(0 0 0 67%); }
+    .dg-404 .dg-brush { transform: translateX(82px) rotate(-4deg); }
+  }
+</style>

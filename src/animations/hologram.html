@@ -1,0 +1,110 @@
+<!-- 404 · Projection Failed — a flickering holographic 404 hovers over a
+     pulsing emitter, raked by scanlines. Pure CSS, self-contained, no
+     dependencies. Retheme via the custom properties on .ho-404.
+     MIT licensed — 404.colorion.co -->
+<div class="ho-404" role="img" aria-label="404 error animation: a flickering holographic 404 projection">
+  <div class="ho-stage">
+    <span class="ho-num">404</span>
+    <span class="ho-base"></span>
+  </div>
+  <span class="ho-cap">PROJECTION FAILED</span>
+</div>
+
+<style>
+  .ho-404 {
+    --ho-ink: #0f191e;
+    --ho-accent: #f4ff2b;
+    --ho-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .ho-stage {
+    position: relative;
+    width: 150px;
+    height: 104px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(120% 80% at 50% 122%,
+      color-mix(in srgb, var(--ho-accent) 16%, var(--ho-ink)),
+      var(--ho-ink));
+  }
+
+  .ho-num {
+    position: relative;
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: color-mix(in srgb, var(--ho-accent) 88%, transparent);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--ho-accent) 60%, transparent);
+    animation: ho-flick 4s infinite, ho-float 3s ease-in-out infinite;
+  }
+  /* Scanlines rake down across the projected glyphs. */
+  .ho-num::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+      transparent 0 2px,
+      color-mix(in srgb, var(--ho-ink) 55%, transparent) 2px 4px);
+    mix-blend-mode: multiply;
+    animation: ho-scan 2.4s linear infinite;
+  }
+
+  .ho-base {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    width: 74px;
+    height: 12px;
+    margin-left: -37px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side,
+      color-mix(in srgb, var(--ho-accent) 80%, transparent), transparent);
+    animation: ho-pulse 3s ease-in-out infinite;
+  }
+
+  .ho-cap {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    color: var(--ho-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes ho-flick {
+    0%, 100% { opacity: 0.92; }
+    8%       { opacity: 0.5; }
+    9%       { opacity: 0.95; }
+    40%      { opacity: 0.85; }
+    41%      { opacity: 0.55; }
+    42%      { opacity: 0.92; }
+    70%      { opacity: 0.9; }
+    72%      { opacity: 0.6; }
+    73%      { opacity: 0.92; }
+  }
+  @keyframes ho-float {
+    0%, 100% { transform: translateY(0) skewX(0deg); }
+    50%      { transform: translateY(-4px) skewX(-4deg); }
+  }
+  @keyframes ho-scan {
+    from { background-position: 0 0; }
+    to   { background-position: 0 8px; }
+  }
+  @keyframes ho-pulse {
+    0%, 100% { opacity: 0.6; transform: scaleX(1); }
+    50%      { opacity: 1; transform: scaleX(1.18); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ho-404 .ho-num,
+    .ho-404 .ho-num::after,
+    .ho-404 .ho-base { animation: none; }
+    .ho-404 .ho-num { opacity: 0.92; }
+  }
+</style>

@@ -1,0 +1,106 @@
+<!-- 404 · Off the Map — a location pin drops onto a map and pings a spot that
+     isn't there. Pure CSS, self-contained, no dependencies. Retheme via the
+     custom properties on .mp-404. MIT licensed — 404.colorion.co -->
+<div class="mp-404" role="img" aria-label="404 error animation: a map pin dropping and pinging a location that cannot be found">
+  <div class="mp-map">
+    <span class="mp-ping"></span>
+    <span class="mp-pin"><span class="mp-pin-dot">404</span></span>
+  </div>
+  <span class="mp-cap">OFF THE MAP</span>
+</div>
+
+<style>
+  .mp-404 {
+    --mp-ink: #0f191e;
+    --mp-accent: #f4ff2b;
+    --mp-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  /* Faint street grid with one accent road. */
+  .mp-map {
+    position: relative;
+    width: 150px;
+    height: 104px;
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, transparent 71px, color-mix(in srgb, var(--mp-accent) 55%, transparent) 71px 79px, transparent 79px),
+      repeating-linear-gradient(0deg,  transparent 0 25px, color-mix(in srgb, var(--mp-shell) 22%, var(--mp-ink)) 25px 27px),
+      repeating-linear-gradient(90deg, transparent 0 30px, color-mix(in srgb, var(--mp-shell) 22%, var(--mp-ink)) 30px 32px),
+      var(--mp-ink);
+  }
+
+  /* Expanding ping ring under the pin. */
+  .mp-ping {
+    position: absolute;
+    top: 62px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    border: 2px solid var(--mp-accent);
+    opacity: 0;
+    animation: mp-ping 4s ease-out infinite;
+  }
+
+  /* Teardrop pin: a rounded square with one sharp corner, rotated 45°. */
+  .mp-pin {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    background: var(--mp-accent);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    transform-origin: 50% 100%;
+    animation: mp-drop 4s ease-in-out infinite;
+  }
+  .mp-pin-dot {
+    position: absolute;
+    inset: 5px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--mp-ink);
+    color: var(--mp-accent);
+    font-size: 8px;
+    font-weight: 800;
+    transform: rotate(-45deg);
+  }
+
+  .mp-cap {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    color: var(--mp-ink);
+    opacity: 0.75;
+  }
+
+  /* Pin falls in, settles with a little bob. */
+  @keyframes mp-drop {
+    0%       { transform: rotate(45deg) translateY(-46px); }
+    18%      { transform: rotate(45deg) translateY(0); }
+    26%      { transform: rotate(45deg) translateY(-7px); }
+    34%, 88% { transform: rotate(45deg) translateY(0); }
+    100%     { transform: rotate(45deg) translateY(-46px); }
+  }
+  @keyframes mp-ping {
+    0%, 30%   { transform: scale(0.4); opacity: 0; }
+    40%       { opacity: 0.9; }
+    70%, 100% { transform: scale(3.4); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-404 .mp-pin,
+    .mp-404 .mp-ping { animation: none; }
+    .mp-404 .mp-pin { transform: rotate(45deg) translateY(0); }
+  }
+</style>

@@ -1,0 +1,84 @@
+<!-- 404 · Wormhole — rings rush outward through a hyperspace tunnel toward a
+     404 at the vanishing point. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .wp-404.
+     MIT licensed — 404.colorion.co -->
+<div class="wp-404" role="img" aria-label="404 error animation: a hyperspace tunnel of rings rushing outward past a 404">
+  <div class="wp-stage">
+    <span class="wp-ring" style="--i: 0;"></span>
+    <span class="wp-ring" style="--i: 1;"></span>
+    <span class="wp-ring" style="--i: 2;"></span>
+    <span class="wp-ring" style="--i: 3;"></span>
+    <span class="wp-ring" style="--i: 4;"></span>
+    <span class="wp-ring" style="--i: 5;"></span>
+    <span class="wp-num">404</span>
+  </div>
+</div>
+
+<style>
+  .wp-404 {
+    --wp-ink: #0f191e;
+    --wp-accent: #f4ff2b;
+    --wp-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .wp-stage {
+    position: relative;
+    width: 150px;
+    height: 110px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 50% 50%,
+      color-mix(in srgb, var(--wp-accent) 20%, var(--wp-ink)), var(--wp-ink) 68%);
+  }
+
+  /* Each ring is born at the centre and rushes outward, fading at the rim;
+     six staggered copies make a continuous tunnel. */
+  .wp-ring {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--wp-accent);
+    opacity: 0;
+    animation: wp-rush 3s linear infinite;
+    animation-delay: calc(var(--i) * -0.5s);
+  }
+
+  .wp-num {
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--wp-accent);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--wp-accent) 60%, transparent);
+    animation: wp-flick 3s steps(1) infinite;
+  }
+
+  @keyframes wp-rush {
+    0%   { transform: scale(0.05); opacity: 0; }
+    18%  { opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+  @keyframes wp-flick {
+    0%, 40%, 60%, 100% { opacity: 1; }
+    50%                { opacity: 0.45; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wp-404 .wp-ring,
+    .wp-404 .wp-num { animation: none; }
+    .wp-404 .wp-ring { opacity: 0.5; }
+    .wp-404 .wp-ring:nth-child(1) { transform: scale(0.35); }
+    .wp-404 .wp-ring:nth-child(2) { transform: scale(0.6); }
+    .wp-404 .wp-ring:nth-child(3) { transform: scale(0.9); }
+    .wp-404 .wp-ring:nth-child(4) { transform: scale(1.2); }
+    .wp-404 .wp-ring:nth-child(5),
+    .wp-404 .wp-ring:nth-child(6) { opacity: 0; }
+  }
+</style>

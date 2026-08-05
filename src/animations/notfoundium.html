@@ -1,0 +1,136 @@
+<!-- 404 · Notfoundium — element 404 of the periodic table: symbol Nf, mass
+     unknown, electrons orbiting a tile that shouldn't exist. Pure CSS,
+     self-contained, no dependencies. Retheme via the custom properties on
+     .el-404. MIT licensed — 404.colorion.co -->
+<div class="el-404" role="img" aria-label="404 error animation: periodic-table element 404, Notfoundium, with orbiting electrons">
+  <div class="el-orbit el-orbit-a"><i></i></div>
+  <div class="el-orbit el-orbit-b"><i></i></div>
+  <div class="el-tile">
+    <span class="el-num">404</span>
+    <span class="el-mass">(?)</span>
+    <span class="el-sym">Nf</span>
+    <span class="el-name">NOTFOUNDIUM</span>
+  </div>
+</div>
+
+<style>
+  .el-404 {
+    --el-ink: #0f191e;
+    --el-accent: #f4ff2b;
+    --el-shell: #ffffff;
+    position: relative;
+    width: 150px;
+    height: 140px;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .el-tile {
+    position: relative;
+    z-index: 1;
+    width: 80px;
+    height: 92px;
+    padding: 8px 9px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--el-shell);
+    border: 3px solid var(--el-ink);
+    border-radius: 8px;
+  }
+
+  .el-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--el-ink);
+  }
+
+  .el-mass {
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    font-size: 9px;
+    font-weight: 700;
+    color: color-mix(in srgb, var(--el-ink) 55%, var(--el-shell));
+    animation: el-wonder 6s infinite;
+  }
+
+  .el-sym {
+    align-self: center;
+    justify-self: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--el-ink);
+    animation: el-flicker 6s infinite;
+  }
+
+  .el-name {
+    justify-self: center;
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-indent: 0.18em;
+    color: var(--el-ink);
+  }
+
+  /* Electron shells: dashed rings around the tile, each carrying one
+     electron. The rings rotate, so the electrons pass behind the tile. */
+  .el-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    border: 1.5px dashed color-mix(in srgb, var(--el-ink) 40%, var(--el-shell));
+    border-radius: 50%;
+  }
+
+  .el-orbit i {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    box-sizing: border-box;
+    background: var(--el-accent);
+    border: 2px solid var(--el-ink);
+    border-radius: 50%;
+  }
+
+  .el-orbit-a {
+    width: 138px;
+    height: 138px;
+    margin: -69px 0 0 -69px;
+    animation: el-spin 7s linear infinite;
+  }
+
+  .el-orbit-b {
+    width: 108px;
+    height: 108px;
+    margin: -54px 0 0 -54px;
+    animation: el-spin 4.5s linear infinite reverse;
+  }
+
+  @keyframes el-spin {
+    to { transform: rotate(1turn); }
+  }
+
+  /* The symbol stutters like a loose neon sign… */
+  @keyframes el-flicker {
+    0%, 55%, 61%, 100% { opacity: 1; }
+    57%, 59%           { opacity: 0.25; }
+  }
+
+  /* …and the atomic mass keeps shrugging. */
+  @keyframes el-wonder {
+    0%, 20%, 40%, 100% { transform: translateY(0); color: color-mix(in srgb, var(--el-ink) 55%, var(--el-shell)); }
+    28%, 34%           { transform: translateY(-2px); color: var(--el-ink); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .el-404 .el-orbit,
+    .el-404 .el-sym,
+    .el-404 .el-mass { animation: none; }
+    .el-404 .el-orbit-b { transform: rotate(140deg); }
+  }
+</style>

@@ -1,0 +1,385 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { animations, type AnimationType } from '../data/animations';
+import vendingMachine from '../animations/vending-machine.html?raw';
+import seanceBoard from '../animations/seance-board.html?raw';
+import elevatorVoid from '../animations/elevator-void.html?raw';
+import splitFlap from '../animations/split-flap.html?raw';
+import baggageClaim from '../animations/baggage-claim.html?raw';
+import magic8Ball from '../animations/magic-8-ball.html?raw';
+import notfoundium from '../animations/notfoundium.html?raw';
+import forecast from '../animations/forecast.html?raw';
+import skippingRecord from '../animations/skipping-record.html?raw';
+import pneumaticTube from '../animations/pneumatic-tube.html?raw';
+import digSite from '../animations/dig-site.html?raw';
+import trafficSignal from '../animations/traffic-signal.html?raw';
+import radarSweep from '../animations/radar-sweep.html?raw';
+import tvStatic from '../animations/tv-static.html?raw';
+import milkCarton from '../animations/milk-carton.html?raw';
+import safeCrack from '../animations/safe-crack.html?raw';
+import fortuneCookie from '../animations/fortune-cookie.html?raw';
+import hourglass from '../animations/hourglass.html?raw';
+import mailbox from '../animations/mailbox.html?raw';
+import brokenCompass from '../animations/broken-compass.html?raw';
+import pongMiss from '../animations/pong-miss.html?raw';
+import glitchText from '../animations/glitch-text.html?raw';
+import liquidBlob from '../animations/liquid-blob.html?raw';
+import wireCube from '../animations/wire-cube.html?raw';
+import glassMorph from '../animations/glass-morph.html?raw';
+import hologram from '../animations/hologram.html?raw';
+import skeletonLoader from '../animations/skeleton-loader.html?raw';
+import bentoGrid from '../animations/bento-grid.html?raw';
+import kineticType from '../animations/kinetic-type.html?raw';
+import softUi from '../animations/soft-ui.html?raw';
+import matrixRain from '../animations/matrix-rain.html?raw';
+import terminalCursor from '../animations/terminal-cursor.html?raw';
+import endlessLoader from '../animations/endless-loader.html?raw';
+import wordTiles from '../animations/word-tiles.html?raw';
+import aiOrb from '../animations/ai-orb.html?raw';
+import mapPin from '../animations/map-pin.html?raw';
+import equalizer from '../animations/equalizer.html?raw';
+import warpTunnel from '../animations/warp-tunnel.html?raw';
+import qrGlitch from '../animations/qr-glitch.html?raw';
+
+// The self-contained snippet (markup + scoped CSS) for each animation type.
+// Rendered live inside the grid cell and offered verbatim in the copy dialog.
+const snippets: Record<AnimationType, string> = {
+  'vending-machine': vendingMachine,
+  'seance-board': seanceBoard,
+  'elevator-void': elevatorVoid,
+  'split-flap': splitFlap,
+  'baggage-claim': baggageClaim,
+  'magic-8-ball': magic8Ball,
+  'notfoundium': notfoundium,
+  'forecast': forecast,
+  'skipping-record': skippingRecord,
+  'pneumatic-tube': pneumaticTube,
+  'dig-site': digSite,
+  'traffic-signal': trafficSignal,
+  'radar-sweep': radarSweep,
+  'tv-static': tvStatic,
+  'milk-carton': milkCarton,
+  'safe-crack': safeCrack,
+  'fortune-cookie': fortuneCookie,
+  'hourglass': hourglass,
+  'mailbox': mailbox,
+  'broken-compass': brokenCompass,
+  'pong-miss': pongMiss,
+  'glitch-text': glitchText,
+  'liquid-blob': liquidBlob,
+  'wire-cube': wireCube,
+  'glass-morph': glassMorph,
+  'hologram': hologram,
+  'skeleton-loader': skeletonLoader,
+  'bento-grid': bentoGrid,
+  'kinetic-type': kineticType,
+  'soft-ui': softUi,
+  'matrix-rain': matrixRain,
+  'terminal-cursor': terminalCursor,
+  'endless-loader': endlessLoader,
+  'word-tiles': wordTiles,
+  'ai-orb': aiOrb,
+  'map-pin': mapPin,
+  'equalizer': equalizer,
+  'warp-tunnel': warpTunnel,
+  'qr-glitch': qrGlitch,
+};
+
+// Data island for the copy dialog: code + prompt per animation type.
+// Escape `<` so markup inside the JSON can't terminate the script element.
+const copyData = JSON.stringify(
+  Object.fromEntries(
+    animations.map((a) => [a.type, { name: a.name, code: snippets[a.type].trim(), prompt: a.prompt }])
+  )
+).replace(/</g, '\\u003c');
+
+// Cross-promo: the other tools in the Colorion network, surfaced in the header
+// dropdown. `?ref=` attributes the referral back to this site.
+const REF = '404.colorion.co';
+const colorionLinks = [
+  { label: 'Colorion', href: 'https://www.colorion.co' },
+  { label: 'CSS Loaders', href: 'https://css-loaders.colorion.co' },
+  { label: '2 Color Combinations', href: 'https://2colors.colorion.co' },
+  { label: 'Color Palettes', href: 'https://colorpalettes.colorion.co' },
+  { label: 'Palette Generator', href: 'https://palettegenerator.colorion.co' },
+  { label: 'Material Colors', href: 'https://material.colorion.co' },
+  { label: 'Mobile Palette', href: 'https://mobilepalette.colorion.co' },
+  { label: 'Gradients', href: 'https://gradients.colorion.co' },
+  { label: 'Gradient Buttons', href: 'https://gradientbuttons.colorion.co' },
+  { label: 'Animated Buttons', href: 'https://animatedbuttons.colorion.co' },
+  { label: 'Font Combinations', href: 'https://fontcombinations.colorion.co' },
+  { label: 'Kinetics', href: 'https://kinetics.colorion.co' },
+  { label: 'Toggles', href: 'https://toggles.colorion.co' },
+  { label: 'CSS Tooltips', href: 'https://csstooltips.colorion.co' },
+  { label: 'CSS Text Effects', href: 'https://text-effects.colorion.co' },
+];
+---
+
+<Layout>
+  <aside class="site-sidebar" aria-label="Colorion tools">
+    <div class="sidebar-brand">
+      <div class="brand-mark">4</div>
+      <div>
+        <span class="mono">404 Animation Library</span>
+        <strong>Colorion Tools</strong>
+      </div>
+    </div>
+    <button
+      class="sidebar-collapse"
+      type="button"
+      aria-label="Collapse Colorion tools sidebar"
+      aria-controls="colorion-sidebar-nav"
+      aria-expanded="true"
+    >
+      ‹
+    </button>
+    <button
+      class="sidebar-toggle"
+      type="button"
+      aria-label="Open Colorion tools menu"
+      aria-controls="colorion-sidebar-nav"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="sidebar-nav" id="colorion-sidebar-nav">
+      {
+        colorionLinks.map((link) => (
+          <a
+            class="mono"
+            href={`${link.href}?ref=${REF}`}
+            target="_blank"
+            rel="noopener"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </aside>
+
+  <div class="page-shell">
+  <header class="site-header">
+    <div class="header-status mono">
+      <span class="pulse-dot"></span>
+      {animations.length} animations · MIT
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="hero-tag mono">Pure CSS · Copy &amp; paste</span>
+    <h1><em>404 animations</em>,<br />free to copy.</h1>
+    <p>
+      A library of ready-made <code>404</code> page animations built with pure
+      CSS — no JavaScript, no dependencies. Drop one into your error page, copy
+      the self-contained <code>CSS</code>, or grab a <code>Prompt</code> to have
+      your coding agent recreate it. Every animation respects
+      <code>prefers-reduced-motion</code>.
+    </p>
+  </section>
+
+  <main class="library">
+    <div class="panel">
+      <h2 class="sr-only">Animation library</h2>
+      <div class="library-head">
+        <span class="mono">Click an animation to copy its CSS or prompt</span>
+        <span class="mono">{animations.length} animations</span>
+      </div>
+
+      <div class="grid" id="animation-grid">
+        {
+          animations.map((animation) => (
+            <article
+              class="cell"
+              role="button"
+              tabindex="0"
+              data-type={animation.type}
+              data-name={animation.name}
+              data-index={animation.index}
+              aria-label={`View CSS for ${animation.name} animation`}
+            >
+              <span class="cell-index mono">{animation.index}</span>
+              <div class="stage">
+                <Fragment set:html={snippets[animation.type]} />
+              </div>
+              <h3>{animation.name}</h3>
+            </article>
+          ))
+        }
+      </div>
+
+      {
+        animations.length === 0 && (
+          <div class="empty-state">
+            <span class="empty-glyph mono" aria-hidden="true">404</span>
+            <p class="mono">No animations yet — check back soon.</p>
+          </div>
+        )
+      }
+    </div>
+  </main>
+
+  <dialog class="copy-dialog" id="copy-dialog">
+    <div class="copy-dialog-head">
+      <span class="mono" id="copy-dialog-title">Animation</span>
+      <button class="copy-close mono" id="copy-dialog-close" aria-label="Close dialog">Esc ✕</button>
+    </div>
+    <pre class="copy-code" id="copy-dialog-code" tabindex="0"></pre>
+    <div class="copy-actions">
+      <button class="copy-btn mono" id="copy-css-btn" data-copies="code">Copy CSS</button>
+      <button class="copy-btn copy-btn-ghost mono" id="copy-prompt-btn" data-copies="prompt">Copy Prompt</button>
+    </div>
+  </dialog>
+
+  <script type="application/json" id="copy-data" set:html={copyData} />
+
+  <footer class="site-footer">
+    <span class="mono">404 Animation Library</span>
+    <nav class="footer-links mono">
+      <a href="https://colorion.co?ref=404.colorion.co" target="_blank" rel="noopener" referrerpolicy="no-referrer-when-downgrade">Colorion</a>
+      <a href="https://css-loaders.colorion.co?ref=404.colorion.co" target="_blank" rel="noopener" referrerpolicy="no-referrer-when-downgrade">CSS Loaders</a>
+      <a href="https://gradientbuttons.colorion.co?ref=404.colorion.co" target="_blank" rel="noopener" referrerpolicy="no-referrer-when-downgrade">Gradient Buttons</a>
+      <a href="https://animatedbuttons.colorion.co?ref=404.colorion.co" target="_blank" rel="noopener" referrerpolicy="no-referrer-when-downgrade">Animated Buttons</a>
+    </nav>
+    <span class="mono">Pure CSS · No dependencies · MIT licensed</span>
+  </footer>
+  </div>
+</Layout>
+
+<script>
+  // ---------- Colorion tools sidebar ----------
+  const sidebar = document.querySelector<HTMLElement>('.site-sidebar');
+  const sidebarToggle = document.querySelector<HTMLButtonElement>('.sidebar-toggle');
+  const sidebarCollapse = document.querySelector<HTMLButtonElement>('.sidebar-collapse');
+  const sidebarNav = document.getElementById('colorion-sidebar-nav');
+
+  if (sidebar && sidebarToggle && sidebarNav) {
+    sidebar.classList.add('menu-enhanced');
+
+    const setSidebarOpen = (open: boolean) => {
+      sidebar.classList.toggle('is-open', open);
+      sidebarToggle.setAttribute('aria-expanded', String(open));
+      sidebarToggle.setAttribute(
+        'aria-label',
+        open ? 'Close Colorion tools menu' : 'Open Colorion tools menu'
+      );
+    };
+
+    sidebarToggle.addEventListener('click', () => {
+      setSidebarOpen(!sidebar.classList.contains('is-open'));
+    });
+
+    sidebarNav.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => setSidebarOpen(false));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (sidebar.classList.contains('is-open') && !sidebar.contains(e.target as Node)) {
+        setSidebarOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+        setSidebarOpen(false);
+        sidebarToggle.focus();
+      }
+    });
+  }
+
+  // ---------- Desktop sidebar collapse ----------
+  if (sidebar && sidebarCollapse) {
+    const STORAGE_KEY = '404-sidebar-collapsed';
+
+    const setSidebarCollapsed = (collapsed: boolean) => {
+      sidebar.classList.toggle('is-collapsed', collapsed);
+      sidebarCollapse.setAttribute('aria-expanded', String(!collapsed));
+      sidebarCollapse.setAttribute(
+        'aria-label',
+        collapsed ? 'Expand Colorion tools sidebar' : 'Collapse Colorion tools sidebar'
+      );
+      sidebarCollapse.textContent = collapsed ? '›' : '‹';
+      try {
+        localStorage.setItem(STORAGE_KEY, collapsed ? '1' : '0');
+      } catch {
+        // Ignore storage failures; the current interaction still works.
+      }
+    };
+
+    try {
+      setSidebarCollapsed(localStorage.getItem(STORAGE_KEY) === '1');
+    } catch {
+      setSidebarCollapsed(false);
+    }
+
+    sidebarCollapse.addEventListener('click', () => {
+      setSidebarCollapsed(!sidebar.classList.contains('is-collapsed'));
+    });
+  }
+
+  // ---------- Copy dialog ----------
+  // Clicking a grid cell opens a dialog showing the animation's self-contained
+  // snippet, with buttons to copy the code or a recreate-it prompt.
+  type CopyEntry = { name: string; code: string; prompt: string };
+  const copyData: Record<string, CopyEntry> = JSON.parse(
+    document.getElementById('copy-data')?.textContent ?? '{}'
+  );
+  const dialog = document.getElementById('copy-dialog') as HTMLDialogElement | null;
+  const dialogTitle = document.getElementById('copy-dialog-title');
+  const dialogCode = document.getElementById('copy-dialog-code');
+  let current: CopyEntry | null = null;
+
+  if (dialog && dialogTitle && dialogCode) {
+    document.querySelectorAll<HTMLElement>('.cell[data-type]').forEach((cell) => {
+      const open = () => {
+        const entry = copyData[cell.dataset.type ?? ''];
+        if (!entry) return;
+        current = entry;
+        dialogTitle.textContent = `${cell.dataset.index} · ${entry.name}`;
+        dialogCode.textContent = entry.code;
+        dialog.showModal();
+      };
+      cell.addEventListener('click', open);
+      cell.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+    });
+
+    document.getElementById('copy-dialog-close')?.addEventListener('click', () => dialog.close());
+    // Close on backdrop click: the dialog itself is the target only when the
+    // click lands outside its padding box contents.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+      const label = btn.textContent ?? '';
+      btn.addEventListener('click', async () => {
+        if (!current) return;
+        const text = btn.dataset.copies === 'prompt' ? current.prompt : current.code;
+        let ok = false;
+        try {
+          await navigator.clipboard.writeText(text);
+          ok = true;
+        } catch {
+          // Fallback for contexts without async-clipboard permission. Must
+          // live inside the dialog: with a modal open the rest of the
+          // document is inert and can't receive the selection.
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          dialog.appendChild(ta);
+          ta.select();
+          try { ok = document.execCommand('copy'); } catch { /* leave ok=false */ }
+          ta.remove();
+        }
+        btn.textContent = ok ? 'Copied ✓' : 'Copy failed';
+        setTimeout(() => { btn.textContent = label; }, 1400);
+      });
+    });
+  }
+</script>

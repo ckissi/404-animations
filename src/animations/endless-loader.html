@@ -1,0 +1,83 @@
+<!-- 404 · Loading Forever — a conic-gradient spinner that never resolves,
+     404 pinned in the middle. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .ld-404.
+     MIT licensed — 404.colorion.co -->
+<div class="ld-404" role="img" aria-label="404 error animation: an endless loading spinner around a 404">
+  <div class="ld-stage">
+    <span class="ld-ring ld-outer"></span>
+    <span class="ld-ring ld-inner"></span>
+    <span class="ld-num">404</span>
+  </div>
+  <span class="ld-cap">LOADING FOREVER</span>
+</div>
+
+<style>
+  .ld-404 {
+    --ld-ink: #0f191e;
+    --ld-accent: #f4ff2b;
+    --ld-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .ld-stage {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Conic trail masked into a ring — the classic indeterminate spinner. */
+  .ld-ring {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .ld-outer {
+    width: 92px;
+    height: 92px;
+    background: conic-gradient(from 0deg, transparent 0 15%, var(--ld-accent));
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+    animation: ld-spin 1.1s linear infinite;
+  }
+  .ld-inner {
+    width: 66px;
+    height: 66px;
+    background: conic-gradient(from 180deg, transparent 0 40%, color-mix(in srgb, var(--ld-accent) 55%, var(--ld-ink)));
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    animation: ld-spin 1.6s linear infinite reverse;
+  }
+
+  .ld-num {
+    position: relative;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--ld-ink);
+    animation: ld-pulse 1.6s ease-in-out infinite;
+  }
+
+  .ld-cap {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-indent: 0.26em;
+    color: var(--ld-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes ld-spin { to { transform: rotate(360deg); } }
+  @keyframes ld-pulse {
+    0%, 100% { opacity: 0.9; }
+    50%      { opacity: 0.4; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ld-404 .ld-ring,
+    .ld-404 .ld-num { animation: none; }
+  }
+</style>

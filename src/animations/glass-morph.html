@@ -1,0 +1,93 @@
+<!-- 404 · Frosted Glass — a glassmorphism card floats over drifting colour
+     orbs, frosting them through backdrop-filter. Pure CSS, self-contained,
+     no dependencies. Retheme via the custom properties on .gs-404.
+     MIT licensed — 404.colorion.co -->
+<div class="gs-404" role="img" aria-label="404 error animation: a frosted glass card floating over drifting colour orbs">
+  <div class="gs-scene">
+    <span class="gs-orb gs-o1"></span>
+    <span class="gs-orb gs-o2"></span>
+    <span class="gs-orb gs-o3"></span>
+    <div class="gs-card">
+      <span class="gs-num">404</span>
+      <span class="gs-sub">NOT FOUND</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gs-404 {
+    --gs-ink: #0f191e;
+    --gs-accent: #f4ff2b;
+    --gs-shell: #ffffff;
+    --gs-glow-2: #7c5cff;
+    --gs-glow-3: #22d3ee;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .gs-scene {
+    position: relative;
+    width: 152px;
+    height: 112px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--gs-ink) 88%, #000), var(--gs-ink));
+  }
+
+  .gs-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(6px);
+    opacity: 0.9;
+  }
+  .gs-o1 { width: 62px; height: 62px; background: var(--gs-accent); top: -14px; left: -12px; animation: gs-d1 7s ease-in-out infinite; }
+  .gs-o2 { width: 56px; height: 56px; background: var(--gs-glow-2); bottom: -18px; right: -10px; animation: gs-d2 8.5s ease-in-out infinite; }
+  .gs-o3 { width: 42px; height: 42px; background: var(--gs-glow-3); top: 34px; left: 60px; animation: gs-d3 6s ease-in-out infinite; }
+
+  .gs-card {
+    position: absolute;
+    inset: 22px 20px;
+    display: grid;
+    place-items: center;
+    gap: 3px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--gs-shell) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gs-shell) 45%, transparent);
+    backdrop-filter: blur(6px) saturate(1.4);
+    -webkit-backdrop-filter: blur(6px) saturate(1.4);
+    box-shadow:
+      0 8px 24px -12px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 color-mix(in srgb, var(--gs-shell) 30%, transparent);
+  }
+  .gs-num {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--gs-shell);
+  }
+  .gs-sub {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-indent: 0.32em;
+    color: color-mix(in srgb, var(--gs-shell) 78%, transparent);
+  }
+
+  @keyframes gs-d1 {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(28px, 22px); }
+  }
+  @keyframes gs-d2 {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(-30px, -20px); }
+  }
+  @keyframes gs-d3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-18px, 14px) scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gs-404 .gs-orb { animation: none; }
+  }
+</style>

@@ -1,0 +1,121 @@
+<!-- 404 · Game Over — a game of Pong where the paddle always misses and the
+     score reads 4 0 4. Pure CSS, self-contained, no dependencies. Retheme
+     via the custom properties on .pg-404. MIT licensed — 404.colorion.co -->
+<div class="pg-404" role="img" aria-label="404 error animation: a game of Pong where the ball flies past the paddle, score 4 0 4">
+  <div class="pg-court">
+    <span class="pg-score">4&nbsp;&nbsp;0&nbsp;&nbsp;4</span>
+    <span class="pg-net"></span>
+    <span class="pg-paddle pg-l"></span>
+    <span class="pg-paddle pg-r"></span>
+    <span class="pg-ball"></span>
+  </div>
+</div>
+
+<style>
+  .pg-404 {
+    --pg-ink: #0f191e;
+    --pg-accent: #f4ff2b;
+    --pg-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .pg-court {
+    position: relative;
+    width: 150px;
+    height: 104px;
+    box-sizing: border-box;
+    border: 2px solid var(--pg-ink);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--pg-ink);
+  }
+
+  .pg-score {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: color-mix(in srgb, var(--pg-shell) 40%, var(--pg-ink));
+  }
+
+  /* Centre net. */
+  .pg-net {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+    background: repeating-linear-gradient(
+      color-mix(in srgb, var(--pg-shell) 40%, var(--pg-ink)) 0 6px,
+      transparent 6px 12px);
+  }
+
+  .pg-paddle {
+    position: absolute;
+    width: 5px;
+    height: 26px;
+    border-radius: 3px;
+    background: var(--pg-shell);
+  }
+  .pg-l {
+    left: 8px;
+    top: 39px;
+    animation: pg-paddle-l 3.4s ease-in-out infinite;
+  }
+  /* The right paddle lunges the wrong way and misses. */
+  .pg-r {
+    right: 8px;
+    top: 39px;
+    animation: pg-paddle-r 3.4s ease-in-out infinite;
+  }
+
+  .pg-ball {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--pg-accent);
+    animation: pg-ball 3.4s linear infinite;
+  }
+
+  /* Ball rallies off the left paddle, bounces off the walls, then sails past
+     the right paddle and the rally resets. */
+  @keyframes pg-ball {
+    0%   { transform: translate(18px, 50px); opacity: 1; }
+    22%  { transform: translate(70px, 12px); opacity: 1; }
+    46%  { transform: translate(120px, 46px); opacity: 1; }
+    62%  { transform: translate(138px, 74px); opacity: 1; }
+    64%  { transform: translate(152px, 82px); opacity: 1; }
+    67%  { transform: translate(164px, 88px); opacity: 0; }
+    68%  { transform: translate(18px, 50px); opacity: 0; }
+    78%  { transform: translate(18px, 50px); opacity: 1; }
+    100% { transform: translate(18px, 50px); opacity: 1; }
+  }
+
+  @keyframes pg-paddle-l {
+    0%, 100% { top: 46px; }
+    22%      { top: 8px; }
+    60%      { top: 60px; }
+  }
+  @keyframes pg-paddle-r {
+    0%       { top: 30px; }
+    46%      { top: 30px; }
+    62%      { top: 10px; }   /* lunges up as the ball drops low */
+    100%     { top: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pg-404 .pg-ball,
+    .pg-404 .pg-paddle { animation: none; }
+    .pg-404 .pg-ball { transform: translate(138px, 78px); }
+    .pg-404 .pg-r { top: 12px; }
+  }
+</style>

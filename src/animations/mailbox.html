@@ -1,0 +1,122 @@
+<!-- 404 · No Mail — the flag drops, the door swings open, and the mailbox is
+     empty. Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .mb-404. MIT licensed — 404.colorion.co -->
+<div class="mb-404" role="img" aria-label="404 error animation: a mailbox flag dropping and the door opening on an empty 404">
+  <div class="mb-stage">
+    <span class="mb-flag"></span>
+    <div class="mb-box">
+      <div class="mb-door"><span class="mb-empty">404</span></div>
+    </div>
+    <span class="mb-post"></span>
+  </div>
+  <span class="mb-label">NO MAIL</span>
+</div>
+
+<style>
+  .mb-404 {
+    --mb-ink: #0f191e;
+    --mb-accent: #f4ff2b;
+    --mb-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .mb-stage {
+    position: relative;
+    width: 130px;
+    height: 96px;
+    perspective: 360px;
+  }
+
+  /* The tin box with its rounded roof. */
+  .mb-box {
+    position: absolute;
+    top: 14px;
+    left: 22px;
+    width: 86px;
+    height: 50px;
+    border-radius: 26px 26px 4px 4px;
+    background: var(--mb-ink);
+    overflow: hidden;
+  }
+
+  /* The front door, hinged on the right, swings open. */
+  .mb-door {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 26px 26px 4px 4px;
+    background: color-mix(in srgb, var(--mb-shell) 12%, var(--mb-ink));
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--mb-shell) 25%, var(--mb-ink));
+    transform-origin: right center;
+    transform-style: preserve-3d;
+    animation: mb-open 6s ease-in-out infinite;
+  }
+  .mb-empty {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--mb-accent);
+  }
+
+  /* Signal flag on the left; raised at rest, dropping once checked. */
+  .mb-flag {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    width: 12px;
+    height: 12px;
+    background: var(--mb-accent);
+    clip-path: polygon(0 0, 100% 25%, 0 50%);
+    transform-origin: left bottom;
+    animation: mb-drop 6s ease-in-out infinite;
+  }
+  /* The little post the flag rides on. */
+  .mb-flag::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 3px;
+    height: 20px;
+    background: var(--mb-ink);
+  }
+
+  .mb-post {
+    position: absolute;
+    bottom: 0;
+    left: 61px;
+    width: 8px;
+    height: 34px;
+    background: var(--mb-ink);
+  }
+
+  .mb-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-indent: 0.24em;
+    color: var(--mb-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes mb-open {
+    0%, 32%   { transform: rotateY(0deg); }
+    50%, 80%  { transform: rotateY(-108deg); }
+    100%      { transform: rotateY(0deg); }
+  }
+
+  @keyframes mb-drop {
+    0%, 18%   { transform: rotate(0deg); }
+    30%, 100% { transform: rotate(84deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mb-404 .mb-door,
+    .mb-404 .mb-flag { animation: none; }
+    .mb-404 .mb-door { transform: rotateY(-108deg); }
+    .mb-404 .mb-flag { transform: rotate(84deg); }
+  }
+</style>

@@ -1,0 +1,122 @@
+<!-- 404 · Timed Out — the sand runs through, the glass flips, and the page
+     still never loads. Pure CSS, self-contained, no dependencies. Retheme
+     via the custom properties on .hg-404. MIT licensed — 404.colorion.co -->
+<div class="hg-404" role="img" aria-label="404 error animation: an hourglass draining and flipping over">
+  <div class="hg-frame">
+    <span class="hg-cap"></span>
+    <span class="hg-glass">
+      <span class="hg-sand hg-top"></span>
+      <span class="hg-sand hg-bot"></span>
+      <span class="hg-stream"></span>
+    </span>
+    <span class="hg-cap"></span>
+  </div>
+  <span class="hg-label">404 · TIMED OUT</span>
+</div>
+
+<style>
+  .hg-404 {
+    --hg-ink: #0f191e;
+    --hg-accent: #f4ff2b;
+    --hg-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .hg-frame {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    animation: hg-flip 5s ease-in-out infinite;
+  }
+
+  .hg-cap {
+    width: 52px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--hg-ink);
+  }
+
+  /* Bowtie glass; the tinted ink shows the vessel, accent shows the sand. */
+  .hg-glass {
+    position: relative;
+    width: 50px;
+    height: 58px;
+    clip-path: polygon(4% 0, 96% 0, 58% 50%, 96% 100%, 4% 100%, 42% 50%);
+    background: color-mix(in srgb, var(--hg-shell) 12%, var(--hg-ink));
+  }
+
+  .hg-sand {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: var(--hg-accent);
+  }
+  /* Top bulb: a downward triangle that drains away. */
+  .hg-top {
+    top: 0;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    animation: hg-drain-top 5s ease-in-out infinite;
+  }
+  /* Bottom bulb: an upward triangle that fills up. */
+  .hg-bot {
+    bottom: 0;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    transform-origin: bottom center;
+    animation: hg-drain-bot 5s ease-in-out infinite;
+  }
+
+  .hg-stream {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    width: 2px;
+    height: 12px;
+    margin-left: -1px;
+    background: var(--hg-accent);
+    opacity: 0;
+    animation: hg-stream 5s ease-in-out infinite;
+  }
+
+  .hg-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--hg-ink);
+    opacity: 0.75;
+  }
+
+  /* Drain over the first 70%, hold, then the frame flips 180° — which turns
+     the full bottom bulb back into a full top bulb, so the reset is seamless. */
+  @keyframes hg-drain-top {
+    0%       { transform: scaleY(1); }
+    70%, 100% { transform: scaleY(0); }
+  }
+  @keyframes hg-drain-bot {
+    0%       { transform: scaleY(0); }
+    70%, 100% { transform: scaleY(1); }
+  }
+  @keyframes hg-stream {
+    0%, 6%    { opacity: 0; }
+    12%, 64%  { opacity: 1; }
+    70%, 100% { opacity: 0; }
+  }
+  @keyframes hg-flip {
+    0%, 80% { transform: rotate(0deg); }
+    100%    { transform: rotate(180deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hg-404 .hg-frame,
+    .hg-404 .hg-sand,
+    .hg-404 .hg-stream { animation: none; }
+    .hg-404 .hg-top { transform: scaleY(0.5); }
+    .hg-404 .hg-bot { transform: scaleY(0.5); }
+    .hg-404 .hg-stream { opacity: 1; }
+  }
+</style>

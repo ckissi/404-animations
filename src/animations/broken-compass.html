@@ -1,0 +1,104 @@
+<!-- 404 · No Bearing — a compass whose needle spins and jitters, never
+     settling on a heading. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .cmp-404.
+     MIT licensed — 404.colorion.co -->
+<div class="cmp-404" role="img" aria-label="404 error animation: a broken compass whose needle spins without finding north">
+  <div class="cmp-face">
+    <span class="cmp-mark cmp-n">N</span>
+    <span class="cmp-mark cmp-e">E</span>
+    <span class="cmp-mark cmp-s">S</span>
+    <span class="cmp-mark cmp-w">W</span>
+    <span class="cmp-needle"></span>
+    <span class="cmp-hub"></span>
+  </div>
+  <span class="cmp-label">404 · NO BEARING</span>
+</div>
+
+<style>
+  .cmp-404 {
+    --cmp-ink: #0f191e;
+    --cmp-accent: #f4ff2b;
+    --cmp-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .cmp-face {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 3px solid var(--cmp-ink);
+    background:
+      radial-gradient(circle, transparent 60%, color-mix(in srgb, var(--cmp-ink) 12%, transparent) 61%),
+      color-mix(in srgb, var(--cmp-shell) 55%, transparent);
+  }
+
+  .cmp-mark {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--cmp-ink);
+    left: 50%;
+    top: 50%;
+  }
+  .cmp-n { transform: translate(-50%, -50%) translateY(-42px); }
+  .cmp-s { transform: translate(-50%, -50%) translateY(42px); }
+  .cmp-e { transform: translate(-50%, -50%) translateX(42px); }
+  .cmp-w { transform: translate(-50%, -50%) translateX(-42px); }
+
+  /* Two-tone needle: accent north half, ink south half. */
+  .cmp-needle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 66px;
+    margin: -33px 0 0 -3px;
+    border-radius: 3px;
+    background: linear-gradient(var(--cmp-accent) 0 50%, var(--cmp-ink) 50% 100%);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    transform-origin: center center;
+    animation: cmp-spin 4s ease-in-out infinite;
+  }
+
+  .cmp-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: var(--cmp-ink);
+  }
+
+  /* Erratic, non-monotonic spinning — it lurches and backtracks, never
+     landing on a heading. */
+  @keyframes cmp-spin {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(220deg); }
+    28%  { transform: rotate(160deg); }
+    45%  { transform: rotate(500deg); }
+    58%  { transform: rotate(430deg); }
+    74%  { transform: rotate(760deg); }
+    86%  { transform: rotate(700deg); }
+    100% { transform: rotate(1080deg); }
+  }
+
+  .cmp-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--cmp-ink);
+    opacity: 0.75;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-404 .cmp-needle { animation: none; transform: rotate(34deg); }
+  }
+</style>

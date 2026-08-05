@@ -1,0 +1,114 @@
+<!-- 404 · Command Not Found — a terminal types the request and gets an error
+     back, cursor blinking. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .tm-404.
+     MIT licensed — 404.colorion.co -->
+<div class="tm-404" role="img" aria-label="404 error animation: a terminal typing a request and returning 404 not found">
+  <div class="tm-win">
+    <div class="tm-bar">
+      <span class="tm-dot"></span>
+      <span class="tm-dot"></span>
+      <span class="tm-dot"></span>
+      <span class="tm-title">zsh — /var/www</span>
+    </div>
+    <div class="tm-body">
+      <span class="tm-line tm-l1">$ get /page</span>
+      <span class="tm-line tm-l2">! 404: not found</span>
+      <span class="tm-prompt">$ <span class="tm-cur"></span></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tm-404 {
+    --tm-ink: #0f191e;
+    --tm-accent: #f4ff2b;
+    --tm-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .tm-win {
+    width: 168px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--tm-ink);
+    box-shadow: 0 12px 26px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  .tm-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 9px;
+    background: color-mix(in srgb, var(--tm-shell) 10%, var(--tm-ink));
+  }
+  .tm-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--tm-shell) 45%, var(--tm-ink));
+  }
+  .tm-dot:first-child { background: var(--tm-accent); }
+  .tm-title {
+    margin-left: auto;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--tm-shell) 55%, var(--tm-ink));
+  }
+
+  .tm-body {
+    display: grid;
+    gap: 5px;
+    padding: 10px 11px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* Typed lines: reveal by animating width, clipping the text. */
+  .tm-line {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    color: var(--tm-shell);
+  }
+  .tm-l1 { animation: tm-type1 5.5s ease-in-out infinite; }
+  .tm-l2 { color: var(--tm-accent); animation: tm-type2 5.5s ease-in-out infinite; }
+
+  .tm-prompt {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--tm-shell);
+  }
+  .tm-cur {
+    width: 7px;
+    height: 13px;
+    background: var(--tm-accent);
+    animation: tm-blink 1s steps(1) infinite;
+  }
+
+  @keyframes tm-type1 {
+    0%, 8%    { width: 0; }
+    22%, 90%  { width: 11ch; }
+    96%, 100% { width: 0; }
+  }
+  @keyframes tm-type2 {
+    0%, 30%   { width: 0; }
+    46%, 90%  { width: 15ch; }
+    96%, 100% { width: 0; }
+  }
+  @keyframes tm-blink {
+    0%, 50%   { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm-404 .tm-line,
+    .tm-404 .tm-cur { animation: none; }
+    .tm-404 .tm-l1 { width: 11ch; }
+    .tm-404 .tm-l2 { width: 15ch; }
+  }
+</style>

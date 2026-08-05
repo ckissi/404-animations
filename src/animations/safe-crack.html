@@ -1,0 +1,122 @@
+<!-- 404 · Empty Vault — the dial spins, the door swings open, and the vault
+     is bare but for a lone 404. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .sf-404.
+     MIT licensed — 404.colorion.co -->
+<div class="sf-404" role="img" aria-label="404 error animation: a safe dial spinning and the door swinging open on an empty 404">
+  <div class="sf-body">
+    <span class="sf-empty">404</span>
+    <div class="sf-door">
+      <div class="sf-dial"></div>
+      <span class="sf-handle"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sf-404 {
+    --sf-ink: #0f191e;
+    --sf-accent: #f4ff2b;
+    --sf-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  /* Vault interior: a shade lighter than the door so the open door reads. */
+  .sf-body {
+    position: relative;
+    width: 118px;
+    height: 118px;
+    border-radius: 10px;
+    perspective: 420px;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--sf-shell) 16%, var(--sf-ink));
+    box-shadow: inset 0 0 0 3px var(--sf-ink);
+  }
+
+  .sf-empty {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--sf-accent);
+    opacity: 0;
+    animation: sf-reveal 8s ease-in-out infinite;
+  }
+
+  /* The heavy door, hinged on the right, covering the vault. */
+  .sf-door {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: var(--sf-ink);
+    transform-origin: right center;
+    transform-style: preserve-3d;
+    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--sf-shell) 22%, var(--sf-ink));
+    animation: sf-open 8s ease-in-out infinite;
+  }
+
+  .sf-dial {
+    position: absolute;
+    top: 50%;
+    left: 34px;
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    border-radius: 50%;
+    border: 3px solid color-mix(in srgb, var(--sf-shell) 45%, var(--sf-ink));
+    background:
+      radial-gradient(circle, color-mix(in srgb, var(--sf-shell) 22%, var(--sf-ink)) 30%, transparent 32%),
+      var(--sf-ink);
+    animation: sf-spin 8s ease-in-out infinite;
+  }
+  /* The pointer notch on the dial. */
+  .sf-dial::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    width: 3px;
+    height: 15px;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    background: var(--sf-accent);
+  }
+
+  .sf-handle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 6px;
+    height: 34px;
+    margin-top: -17px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--sf-shell) 45%, var(--sf-ink));
+  }
+
+  /* Spin the tumblers, then hold while the door opens. */
+  @keyframes sf-spin {
+    0%      { transform: rotate(0deg); }
+    38%     { transform: rotate(760deg); }
+    45%,100% { transform: rotate(720deg); }
+  }
+
+  @keyframes sf-open {
+    0%, 45%   { transform: rotateY(0deg); }
+    62%, 88%  { transform: rotateY(-105deg); }
+    100%      { transform: rotateY(0deg); }
+  }
+
+  @keyframes sf-reveal {
+    0%, 52%   { opacity: 0; }
+    64%, 86%  { opacity: 1; }
+    98%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sf-404 .sf-door,
+    .sf-404 .sf-dial,
+    .sf-404 .sf-empty { animation: none; }
+    .sf-404 .sf-door { transform: rotateY(-105deg); }
+    .sf-404 .sf-empty { opacity: 1; }
+  }
+</style>

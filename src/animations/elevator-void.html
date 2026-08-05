@@ -1,0 +1,185 @@
+<!-- 404 · Elevator to Nowhere — the indicator counts up, dings at 404, and the
+     doors open onto a missing floor. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .lift-404. MIT licensed — 404.colorion.co -->
+<div class="lift-404" role="img" aria-label="404 error animation: elevator doors open onto a missing floor">
+  <div class="lift-shaft">
+    <div class="lift-panel">
+      <span class="lift-arrow"></span>
+      <span class="lift-floor">
+        <span class="lift-f lift-f-a">3</span>
+        <span class="lift-f lift-f-b">4</span>
+        <span class="lift-f lift-f-c">404</span>
+      </span>
+    </div>
+    <div class="lift-cab">
+      <div class="lift-void">
+        <span class="lift-code">404</span>
+        <i></i><i></i><i></i>
+      </div>
+      <div class="lift-door lift-door-l"></div>
+      <div class="lift-door lift-door-r"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lift-404 {
+    --l-ink: #0f191e;
+    --l-accent: #f4ff2b;
+    --l-shell: #ffffff;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .lift-shaft {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+  }
+
+  .lift-panel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 20px;
+    padding: 0 10px;
+    background: var(--l-ink);
+    border-radius: 5px;
+  }
+
+  /* Up arrow, blinks on arrival. */
+  .lift-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid var(--l-accent);
+    animation: lift-ding 7s infinite;
+  }
+
+  .lift-floor {
+    position: relative;
+    width: 30px;
+    height: 100%;
+  }
+
+  .lift-f {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--l-accent);
+    opacity: 0;
+  }
+
+  .lift-f-a { animation: lift-floor-a 7s infinite; }
+  .lift-f-b { animation: lift-floor-b 7s infinite; }
+  .lift-f-c { animation: lift-floor-c 7s infinite; }
+
+  .lift-cab {
+    position: relative;
+    width: 104px;
+    height: 116px;
+    box-sizing: border-box;
+    border: 3px solid var(--l-ink);
+    border-radius: 8px 8px 4px 4px;
+    overflow: hidden;
+  }
+
+  /* What's behind the doors: nothing, glowing softly. */
+  .lift-void {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: var(--l-ink);
+  }
+
+  .lift-code {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-indent: 0.14em;
+    color: var(--l-accent);
+    animation: lift-pulse 7s ease-in-out infinite;
+  }
+
+  .lift-void i {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--l-accent);
+    opacity: 0;
+  }
+
+  .lift-void i:nth-child(2) { left: 22%; animation: lift-mote 7s 0s infinite; }
+  .lift-void i:nth-child(3) { left: 50%; animation: lift-mote 7s 0.9s infinite; }
+  .lift-void i:nth-child(4) { left: 76%; animation: lift-mote 7s 0.4s infinite; }
+
+  .lift-door {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: var(--l-shell);
+    border: 2px solid var(--l-ink);
+    box-sizing: border-box;
+  }
+
+  .lift-door-l { left: 0;  animation: lift-open-l 7s ease-in-out infinite; }
+  .lift-door-r { right: 0; animation: lift-open-r 7s ease-in-out infinite; }
+
+  /* Timeline (7s): floors 3 → 4 → “404”, ding, doors open on the void,
+     hold, close, repeat. */
+  @keyframes lift-floor-a { 0%, 12% { opacity: 1; } 13%, 100% { opacity: 0; } }
+  @keyframes lift-floor-b { 0%, 12% { opacity: 0; } 13%, 24% { opacity: 1; } 25%, 100% { opacity: 0; } }
+  @keyframes lift-floor-c {
+    0%, 24%   { opacity: 0; }
+    26%, 88%  { opacity: 1; }
+    27%, 29%  { opacity: 0.2; } /* arrival flicker */
+    89%, 100% { opacity: 0; }
+  }
+
+  @keyframes lift-ding {
+    0%, 24%, 34%, 100% { opacity: 0.25; }
+    26%, 32%           { opacity: 1; }
+  }
+
+  @keyframes lift-open-l {
+    0%, 30%   { transform: translateX(0); }
+    42%, 72%  { transform: translateX(-96%); }
+    84%, 100% { transform: translateX(0); }
+  }
+
+  @keyframes lift-open-r {
+    0%, 30%   { transform: translateX(0); }
+    42%, 72%  { transform: translateX(96%); }
+    84%, 100% { transform: translateX(0); }
+  }
+
+  @keyframes lift-pulse {
+    0%, 34%, 100% { opacity: 0.4; text-shadow: none; }
+    48%, 66%      { opacity: 1; text-shadow: 0 0 14px var(--l-accent); }
+  }
+
+  @keyframes lift-mote {
+    0%, 38%   { opacity: 0; transform: translateY(46px); }
+    48%       { opacity: 0.9; }
+    62%       { opacity: 0.5; }
+    72%, 100% { opacity: 0; transform: translateY(-40px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lift-404 .lift-cab *,
+    .lift-404 .lift-panel * { animation: none; }
+    .lift-404 .lift-door-l { transform: translateX(-96%); }
+    .lift-404 .lift-door-r { transform: translateX(96%); }
+    .lift-404 .lift-f-c { opacity: 1; }
+    .lift-404 .lift-code { opacity: 1; }
+  }
+</style>

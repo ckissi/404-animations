@@ -1,0 +1,97 @@
+<!-- 404 · No Contact — a radar scope sweeps the void and pings a lone,
+     unreachable blip. Pure CSS, self-contained, no dependencies. Retheme
+     via the custom properties on .rdr-404. MIT licensed — 404.colorion.co -->
+<div class="rdr-404" role="img" aria-label="404 error animation: a radar sweep scanning but finding no contact">
+  <div class="rdr-scope">
+    <div class="rdr-sweep"></div>
+    <span class="rdr-blip">404</span>
+  </div>
+  <span class="rdr-label">SCANNING · NO CONTACT</span>
+</div>
+
+<style>
+  .rdr-404 {
+    --rdr-ink: #0f191e;
+    --rdr-accent: #f4ff2b;
+    --rdr-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .rdr-scope {
+    position: relative;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 2px solid var(--rdr-ink);
+    overflow: hidden;
+    background:
+      repeating-radial-gradient(circle at center,
+        transparent 0 15px,
+        color-mix(in srgb, var(--rdr-accent) 22%, transparent) 15px 16px),
+      var(--rdr-ink);
+  }
+
+  /* Crosshair reticle. */
+  .rdr-scope::before,
+  .rdr-scope::after {
+    content: "";
+    position: absolute;
+    background: color-mix(in srgb, var(--rdr-accent) 22%, transparent);
+  }
+  .rdr-scope::before { top: 0; bottom: 0; left: 50%; width: 1px; margin-left: -0.5px; }
+  .rdr-scope::after  { left: 0; right: 0; top: 50%; height: 1px; margin-top: -0.5px; }
+
+  /* The sweep: a bright wedge fading to nothing behind it, going round. */
+  .rdr-sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+      color-mix(in srgb, var(--rdr-accent) 60%, transparent),
+      transparent 62deg);
+    animation: rdr-spin 4s linear infinite;
+  }
+
+  /* A blip the sweep finds, then loses again. */
+  .rdr-blip {
+    position: absolute;
+    top: 28px;
+    left: 66px;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--rdr-ink);
+    background: var(--rdr-accent);
+    padding: 1px 3px;
+    border-radius: 3px;
+    opacity: 0;
+    animation: rdr-ping 4s linear infinite;
+  }
+
+  .rdr-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--rdr-ink);
+    opacity: 0.75;
+  }
+
+  @keyframes rdr-spin { to { transform: rotate(360deg); } }
+
+  @keyframes rdr-ping {
+    0%, 18%   { opacity: 0; }
+    20%       { opacity: 1; }
+    42%       { opacity: 0.15; }
+    56%       { opacity: 0.8; }
+    72%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rdr-404 .rdr-sweep { animation: none; }
+    .rdr-404 .rdr-blip { animation: none; opacity: 1; }
+  }
+</style>

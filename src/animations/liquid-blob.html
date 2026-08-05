@@ -1,0 +1,75 @@
+<!-- 404 · Liquid Void — gooey metaballs merge and split behind the number,
+     built with the blur + contrast filter trick (no SVG goo filter needed).
+     Pure CSS, self-contained, no dependencies. Retheme via the custom
+     properties on .lq-404. MIT licensed — 404.colorion.co -->
+<div class="lq-404" role="img" aria-label="404 error animation: gooey liquid metaballs merging behind a 404">
+  <div class="lq-stage">
+    <div class="lq-goo">
+      <span class="lq-ball lq-b1"></span>
+      <span class="lq-ball lq-b2"></span>
+      <span class="lq-ball lq-b3"></span>
+    </div>
+    <span class="lq-num">404</span>
+  </div>
+</div>
+
+<style>
+  .lq-404 {
+    --lq-ink: #0f191e;
+    --lq-accent: #f4ff2b;
+    --lq-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .lq-stage {
+    position: relative;
+    width: 140px;
+    height: 110px;
+    display: grid;
+    place-items: center;
+  }
+
+  /* blur + high contrast turns overlapping soft circles into one gooey mass. */
+  .lq-goo {
+    position: absolute;
+    inset: 0;
+    filter: blur(7px) contrast(16);
+  }
+
+  .lq-ball {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--lq-accent);
+  }
+  .lq-b1 { width: 48px; height: 48px; top: 32px; left: 18px; animation: lq-m1 5s ease-in-out infinite; }
+  .lq-b2 { width: 40px; height: 40px; top: 40px; left: 78px; animation: lq-m2 6s ease-in-out infinite; }
+  .lq-b3 { width: 30px; height: 30px; top: 18px; left: 54px; animation: lq-m3 4.5s ease-in-out infinite; }
+
+  .lq-num {
+    position: relative;
+    z-index: 1;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--lq-ink);
+  }
+
+  @keyframes lq-m1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(26px, -12px) scale(1.15); }
+  }
+  @keyframes lq-m2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-28px, 8px) scale(0.9); }
+  }
+  @keyframes lq-m3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(6px, 22px) scale(1.25); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lq-404 .lq-ball { animation: none; }
+  }
+</style>
