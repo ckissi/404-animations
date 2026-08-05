@@ -1,0 +1,8 @@
+# pnpm 11+ uses `allowBuilds`; `onlyBuiltDependencies` is kept for pnpm 10.
+# Both let esbuild/sharp run their install scripts, which the Astro build needs.
+allowBuilds:
+  esbuild: true
+  sharp: true
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
