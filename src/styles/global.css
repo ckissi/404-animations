@@ -566,6 +566,25 @@ h1 em {
   border-bottom-color: currentColor;
 }
 
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  opacity: .85;
+  transition: opacity .2s;
+}
+
+.footer-badge:hover,
+.footer-badge:focus-visible {
+  opacity: 1;
+}
+
+.footer-badge img {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
 @media (max-width: 860px) {
   .site-sidebar {
     position: sticky;
