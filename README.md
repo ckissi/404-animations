@@ -2,7 +2,7 @@
 
 A library of ready-made 404 page animations built with pure CSS — no JavaScript, no dependencies. Browse the grid, copy the self-contained CSS for any animation, or grab a prompt to have a coding agent recreate it from scratch.
 
-Live at [404.colorion.co](https://404.colorion.co), part of the [Colorion](https://colorion.co) tools network.
+Live at [404.colorion.co](https://404.colorion.co), part of the [Colorion](https://colorion.co) tools network. Hosted with [Sevalla](https://sevalla.com?ref=404.colorion.co).
 
 ## Features
 
@@ -13,7 +13,7 @@ Live at [404.colorion.co](https://404.colorion.co), part of the [Colorion](https
 
 ## Tech stack
 
-- [Astro](https://astro.build) (static site, no client framework)
+- Astro (static site, no client framework)
 - Vanilla CSS + a small amount of vanilla TypeScript for the sidebar and copy dialog
 
 ## Project structure
