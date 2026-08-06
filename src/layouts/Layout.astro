@@ -72,6 +72,13 @@ const jsonLd = {
          the inlined global.css. -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-500-normal.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-400-normal.woff2" crossorigin />
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script is:inline async src="https://plausible.elerion.com/js/pa-OqZ6w_3aqV2HI1Pl3jWd0.js"></script>
+    <script is:inline>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
   </head>
   <body>
     <slot />
