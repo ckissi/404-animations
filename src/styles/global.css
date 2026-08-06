@@ -130,8 +130,9 @@ body {
 }
 
 .brand-mark {
-  width: 28px;
+  min-width: 28px;
   height: 28px;
+  padding: 0 6px;
   border-radius: var(--r-control);
   background: var(--primary);
   display: grid;
