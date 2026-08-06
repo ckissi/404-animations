@@ -85,6 +85,41 @@ const snippets: Record<AnimationType, string> = {
   'qr-glitch': qrGlitch,
 };
 
+// ---------- Accent theming ----------
+// Every snippet is drawn in ink (near-black) plus one accent, and each declares
+// its own `--<prefix>-accent` seeded with the same volt yellow. Harvesting those
+// names lets a single generated rule repoint them all at one page-level
+// variable, so choosing a color recolors every animation at once while the ink
+// and shell stay exactly as they are.
+const DEFAULT_ACCENT = '#F4FF2B';
+
+const accentVars = [
+  ...new Set(
+    Object.values(snippets).flatMap((code) =>
+      [...code.matchAll(/--([a-z0-9-]*accent)\s*:/gi)].map((m) => m[1])
+    )
+  ),
+].sort();
+
+// Bright, mid-value hues only: the accent has to carry dark ink on top of it in
+// some animations and read against a white shell in others.
+const accentPresets = [
+  { name: 'Volt', value: DEFAULT_ACCENT },
+  { name: 'Amber', value: '#FBBF24' },
+  { name: 'Coral', value: '#FF7A5C' },
+  { name: 'Rose', value: '#FB7185' },
+  { name: 'Orchid', value: '#E879F9' },
+  { name: 'Violet', value: '#A78BFA' },
+  { name: 'Sky', value: '#38BDF8' },
+  { name: 'Mint', value: '#2DD4BF' },
+  { name: 'Lime', value: '#A3E635' },
+];
+
+// Scoped through the grid's id so it outranks each snippet's own class-level
+// declaration — the animation files themselves stay untouched and copyable.
+const accentCss = `:root{--picked-accent:${DEFAULT_ACCENT};}
+#animation-grid .stage > *{${accentVars.map((v) => `--${v}:var(--picked-accent);`).join('')}}`;
+
 // Data island for the copy dialog: code + prompt per animation type.
 // Escape `<` so markup inside the JSON can't terminate the script element.
 const copyData = JSON.stringify(
@@ -116,6 +151,20 @@ const colorionLinks = [
 ---
 
 <Layout>
+  <style is:inline set:html={accentCss} />
+  <script is:inline>
+    // Restore the saved accent before the grid paints so a non-default choice
+    // doesn't flash yellow first.
+    try {
+      const saved = localStorage.getItem('404-accent');
+      if (saved && /^#[0-9a-f]{6}$/i.test(saved)) {
+        document.documentElement.style.setProperty('--picked-accent', saved);
+      }
+    } catch {
+      // Storage unavailable (private mode, blocked cookies) — keep the default.
+    }
+  </script>
+
   <aside class="site-sidebar" aria-label="Colorion tools">
     <div class="sidebar-brand">
       <div class="brand-mark">4</div>
@@ -185,8 +234,44 @@ const colorionLinks = [
     <div class="panel">
       <h2 class="sr-only">Animation library</h2>
       <div class="library-head">
-        <span class="mono">Click an animation to copy its CSS or prompt</span>
-        <span class="mono">{animations.length} animations</span>
+        <span class="mono library-hint">Click an animation to copy its CSS or prompt</span>
+        <div class="library-tools">
+          <div class="accent-picker" id="accent-picker">
+            <span class="mono accent-label" id="accent-label">Accent</span>
+            <button
+              class="accent-trigger mono"
+              id="accent-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="accent-menu"
+              aria-label={`Accent color: ${accentPresets[0].name}`}
+            >
+              <span class="accent-swatch" style={`--sw:${DEFAULT_ACCENT}`} aria-hidden="true"></span>
+              <span class="accent-trigger-name">{accentPresets[0].name}</span>
+              <span class="accent-caret" aria-hidden="true">▾</span>
+            </button>
+            <ul class="accent-menu" id="accent-menu" role="listbox" aria-labelledby="accent-label" hidden>
+              {
+                accentPresets.map((preset, i) => (
+                  <li
+                    class="accent-option mono"
+                    role="option"
+                    id={`accent-option-${i}`}
+                    data-value={preset.value}
+                    data-name={preset.name}
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                  >
+                    <span class="accent-swatch" style={`--sw:${preset.value}`} aria-hidden="true" />
+                    <span class="accent-option-name">{preset.name}</span>
+                    <span class="accent-hex">{preset.value}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <span class="mono library-count">{animations.length} animations</span>
+        </div>
       </div>
 
       <div class="grid" id="animation-grid">
@@ -320,6 +405,131 @@ const colorionLinks = [
     });
   }
 
+  // ---------- Accent color picker ----------
+  // Every animation is ink + one accent. Picking a color repoints the shared
+  // `--picked-accent` variable, which the generated rule feeds into each
+  // snippet's own accent property — the ink stays black throughout.
+  const accentPicker = document.getElementById('accent-picker');
+  const accentTrigger = document.getElementById('accent-trigger') as HTMLButtonElement | null;
+  const accentMenu = document.getElementById('accent-menu');
+  const accentOptions = Array.from(
+    document.querySelectorAll<HTMLLIElement>('.accent-option')
+  );
+
+  // The hex baked into every snippet file — what gets swapped out in copied code.
+  const BASE_ACCENT = accentOptions[0]?.dataset.value ?? '#F4FF2B';
+  let currentAccent = BASE_ACCENT;
+  // Anything that needs to re-render when the accent changes (the copy dialog).
+  const accentListeners: Array<(hex: string) => void> = [];
+
+  /** Rewrite a snippet's baked-in accent to the currently picked one. */
+  const withAccent = (code: string) =>
+    currentAccent.toLowerCase() === BASE_ACCENT.toLowerCase()
+      ? code
+      : code.replace(new RegExp(BASE_ACCENT, 'gi'), currentAccent);
+
+  if (accentPicker && accentTrigger && accentMenu && accentOptions.length) {
+    const STORAGE_KEY = '404-accent';
+    const swatch = accentTrigger.querySelector<HTMLElement>('.accent-swatch');
+    const nameLabel = accentTrigger.querySelector<HTMLElement>('.accent-trigger-name');
+
+    const applyAccent = (hex: string, persist: boolean) => {
+      const option = accentOptions.find(
+        (o) => (o.dataset.value ?? '').toLowerCase() === hex.toLowerCase()
+      );
+      if (!option) return;
+
+      currentAccent = option.dataset.value ?? BASE_ACCENT;
+      document.documentElement.style.setProperty('--picked-accent', currentAccent);
+      swatch?.style.setProperty('--sw', currentAccent);
+      if (nameLabel) nameLabel.textContent = option.dataset.name ?? '';
+      accentTrigger.setAttribute('aria-label', `Accent color: ${option.dataset.name ?? ''}`);
+      accentOptions.forEach((o) => o.setAttribute('aria-selected', String(o === option)));
+      accentMenu.setAttribute('aria-activedescendant', option.id);
+      accentListeners.forEach((fn) => fn(currentAccent));
+
+      if (persist) {
+        try {
+          localStorage.setItem(STORAGE_KEY, currentAccent);
+        } catch {
+          // Ignore storage failures; the current selection still applies.
+        }
+      }
+    };
+
+    const setMenuOpen = (open: boolean) => {
+      accentMenu.hidden = !open;
+      accentPicker.classList.toggle('is-open', open);
+      accentTrigger.setAttribute('aria-expanded', String(open));
+      if (open) {
+        const selected =
+          accentOptions.find((o) => o.getAttribute('aria-selected') === 'true') ??
+          accentOptions[0];
+        // preventScroll: the menu sits right under the trigger the user just
+        // clicked, so moving focus must not yank the page around.
+        selected.focus({ preventScroll: true });
+      }
+    };
+
+    // Options are focusable only while the menu is open, so the picker costs a
+    // single tab stop when closed.
+    accentOptions.forEach((option) => {
+      option.tabIndex = -1;
+      option.addEventListener('click', () => {
+        applyAccent(option.dataset.value ?? BASE_ACCENT, true);
+        setMenuOpen(false);
+        accentTrigger.focus();
+      });
+    });
+
+    accentTrigger.addEventListener('click', () => setMenuOpen(accentMenu.hidden));
+
+    accentMenu.addEventListener('keydown', (e) => {
+      const i = accentOptions.indexOf(document.activeElement as HTMLLIElement);
+      if (i === -1) return;
+
+      const focusAt = (next: number) => {
+        e.preventDefault();
+        accentOptions[(next + accentOptions.length) % accentOptions.length].focus({
+          preventScroll: true,
+        });
+      };
+
+      switch (e.key) {
+        case 'ArrowDown': focusAt(i + 1); break;
+        case 'ArrowUp':   focusAt(i - 1); break;
+        case 'Home':      focusAt(0); break;
+        case 'End':       focusAt(accentOptions.length - 1); break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          accentOptions[i].click();
+          break;
+        case 'Escape':
+        case 'Tab':
+          setMenuOpen(false);
+          accentTrigger.focus();
+          break;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!accentMenu.hidden && !accentPicker.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    });
+
+    // Re-apply the stored value through the same path the buttons use, so the
+    // trigger label and aria-selected state match the pre-paint inline script.
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      // Storage unavailable — fall back to the default accent.
+    }
+    applyAccent(stored ?? BASE_ACCENT, false);
+  }
+
   // ---------- Copy dialog ----------
   // Clicking a grid cell opens a dialog showing the animation's self-contained
   // snippet, with buttons to copy the code or a recreate-it prompt.
@@ -333,13 +543,18 @@ const colorionLinks = [
   let current: CopyEntry | null = null;
 
   if (dialog && dialogTitle && dialogCode) {
+    // Keep the shown code in sync if the accent changes while the dialog is open.
+    accentListeners.push(() => {
+      if (current) dialogCode.textContent = withAccent(current.code);
+    });
+
     document.querySelectorAll<HTMLElement>('.cell[data-type]').forEach((cell) => {
       const open = () => {
         const entry = copyData[cell.dataset.type ?? ''];
         if (!entry) return;
         current = entry;
         dialogTitle.textContent = `${cell.dataset.index} · ${entry.name}`;
-        dialogCode.textContent = entry.code;
+        dialogCode.textContent = withAccent(entry.code);
         dialog.showModal();
       };
       cell.addEventListener('click', open);
@@ -359,7 +574,8 @@ const colorionLinks = [
       const label = btn.textContent ?? '';
       btn.addEventListener('click', async () => {
         if (!current) return;
-        const text = btn.dataset.copies === 'prompt' ? current.prompt : current.code;
+        const text =
+          btn.dataset.copies === 'prompt' ? current.prompt : withAccent(current.code);
         let ok = false;
         try {
           await navigator.clipboard.writeText(text);
