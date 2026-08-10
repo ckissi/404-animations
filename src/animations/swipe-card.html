@@ -1,0 +1,149 @@
+<!-- 404 · No Match — a dating-app card stack where the page keeps getting
+     swiped away with a NOPE stamp. Pure CSS, self-contained, no dependencies.
+     Retheme via the custom properties on .sw-404.
+     MIT licensed — 404.colorion.co -->
+<div class="sw-404" role="img" aria-label="404 error animation: a dating-app card for the missing page being swiped away">
+  <div class="sw-deck">
+    <span class="sw-ghost sw-g2"></span>
+    <span class="sw-ghost sw-g1"></span>
+    <div class="sw-card">
+      <span class="sw-stamp">NOPE</span>
+      <span class="sw-avatar">404</span>
+      <span class="sw-name">PAGE, 404</span>
+      <span class="sw-meta">∞ km away</span>
+    </div>
+  </div>
+  <span class="sw-cap">NO MATCH</span>
+</div>
+
+<style>
+  .sw-404 {
+    --sw-ink: #0f191e;
+    --sw-accent: #f4ff2b;
+    --sw-shell: #ffffff;
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .sw-deck {
+    position: relative;
+    width: 104px;
+    height: 108px;
+  }
+
+  /* The cards waiting underneath — they rise as the top one leaves. */
+  .sw-ghost {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background: var(--sw-shell);
+    border: 1.5px solid color-mix(in srgb, var(--sw-ink) 25%, var(--sw-shell));
+    animation: sw-promote 5s ease-in-out infinite;
+  }
+  .sw-g1 { --sw-rest: 0.93; --sw-lift: 6px;  }
+  .sw-g2 { --sw-rest: 0.86; --sw-lift: 12px; opacity: 0.6; }
+
+  .sw-card {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 5px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: var(--sw-shell);
+    border: 1.5px solid var(--sw-ink);
+    box-shadow: 0 3px 0 color-mix(in srgb, var(--sw-ink) 14%, transparent);
+    transform-origin: 50% 140%;
+    animation: sw-swipe 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .sw-avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--sw-accent);
+    color: var(--sw-ink);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .sw-name {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--sw-ink);
+  }
+
+  .sw-meta {
+    font-size: 7px;
+    letter-spacing: 0.14em;
+    color: color-mix(in srgb, var(--sw-ink) 55%, var(--sw-shell));
+  }
+
+  /* Rejection stamp, punched on only while the card is on its way out. */
+  .sw-stamp {
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    padding: 2px 5px;
+    border: 2px solid var(--sw-ink);
+    border-radius: 4px;
+    background: var(--sw-accent);
+    color: var(--sw-ink);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.6);
+    animation: sw-stamp 5s ease-out infinite;
+  }
+
+  .sw-cap {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--sw-ink);
+    opacity: 0.75;
+  }
+
+  /* Hold, flick left with a tilt, then reappear from the back of the deck. */
+  @keyframes sw-swipe {
+    0%, 34%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+    40%       { transform: translate(6px, -2px) rotate(3deg) scale(1); opacity: 1; }
+    58%       { transform: translate(-104px, 14px) rotate(-24deg) scale(0.96); opacity: 0; }
+    59%       { transform: translate(0, 10px) rotate(0deg) scale(0.86); opacity: 0; }
+    76%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  }
+
+  @keyframes sw-promote {
+    0%, 40%   { transform: translateY(calc(var(--sw-lift) * -1)) scale(var(--sw-rest)); }
+    62%, 70%  { transform: translateY(calc(var(--sw-lift) * -0.4)) scale(calc(var(--sw-rest) + 0.06)); }
+    88%, 100% { transform: translateY(calc(var(--sw-lift) * -1)) scale(var(--sw-rest)); }
+  }
+
+  @keyframes sw-stamp {
+    0%, 36%  { opacity: 0; transform: rotate(-16deg) scale(1.6); }
+    44%      { opacity: 1; transform: rotate(-16deg) scale(1); }
+    56%      { opacity: 1; transform: rotate(-16deg) scale(1); }
+    58%, 100% { opacity: 0; transform: rotate(-16deg) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sw-404 .sw-card,
+    .sw-404 .sw-ghost,
+    .sw-404 .sw-stamp { animation: none; }
+    .sw-404 .sw-card { transform: translate(-16px, 4px) rotate(-8deg); }
+    .sw-404 .sw-stamp { opacity: 1; }
+    .sw-404 .sw-g1 { transform: translateY(-6px) scale(0.93); }
+    .sw-404 .sw-g2 { transform: translateY(-12px) scale(0.86); }
+  }
+</style>

@@ -6,7 +6,7 @@ Live at [404.colorion.co](https://404.colorion.co), part of the [Colorion](https
 
 ## Features
 
-- **39 animations** covering a wide range of styles: retro (CRT static, split-flap boards, vinyl records), physical objects (vending machines, mailboxes, safes), UI patterns (skeleton loaders, glassmorphism, neumorphism), and more.
+- **42 animations** covering a wide range of styles: retro (CRT static, split-flap boards, vinyl records), physical objects (vending machines, mailboxes, safes), UI patterns (skeleton loaders, glassmorphism, neumorphism, swipe cards, CAPTCHAs, chat threads), and more.
 - **Pure CSS** — every animation is markup + scoped CSS only, no JavaScript and no images.
 - **Copy CSS or Prompt** — click any cell to open a dialog with the raw, self-contained snippet, or a prompt describing the animation for a coding agent to regenerate it.
 - **Accessible** — every animation respects `prefers-reduced-motion`, falling back to a static frozen state.

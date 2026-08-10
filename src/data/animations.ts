@@ -44,7 +44,10 @@ export type AnimationType =
   | 'map-pin'
   | 'equalizer'
   | 'warp-tunnel'
-  | 'qr-glitch';
+  | 'qr-glitch'
+  | 'swipe-card'
+  | 'captcha-grid'
+  | 'chat-typing';
 
 export interface Animation {
   /** Zero-padded catalogue number, e.g. '01'. */
@@ -430,5 +433,35 @@ export const animations: Animation[] = [
       'Create a pure-CSS animation for a 404 Not Found page: a glitching QR code. ' +
       'A white code tile shows three finder “eyes” (ink ring, white gap, ink pupil) over a dense pseudo-random module field made from two offset repeating-conic-gradient checker layers whose positions keep shifting to scramble the data; an accent scan line sweeps down and never gets a read. Caption “SCAN FAILED · 404”. ' +
       'Use a single root element with a scoped class prefix, CSS custom properties for the ink/accent/shell colors, no JavaScript and no images, and disable the motion under prefers-reduced-motion (field static, scan line parked mid-code).',
+  },
+  {
+    index: '40',
+    name: 'No Match',
+    type: 'swipe-card',
+    prompt:
+      'Create a pure-CSS animation for a 404 Not Found page: a dating-app card stack swiping the missing page away. ' +
+      'A rounded profile card sits on top of two smaller ghost cards; it holds a round accent avatar reading “404”, a name line “PAGE, 404” and a meta line “∞ km away”. ' +
+      'On a 5-second loop the card leans right, then flicks off to the left with a rotation and fades out while a “NOPE” stamp punches on at an angle (scaling down from oversized); the ghost cards rise and scale up as it goes, then the card fades back in from the bottom of the deck — the same page, offered again. Caption “NO MATCH”. ' +
+      'Use a single root element with a scoped class prefix, CSS custom properties for the ink/accent/shell colors, no JavaScript and no images, and disable the motion under prefers-reduced-motion (card tilted mid-swipe with the stamp shown).',
+  },
+  {
+    index: '41',
+    name: 'Not a Robot',
+    type: 'captcha-grid',
+    prompt:
+      'Create a pure-CSS animation for a 404 Not Found page: a CAPTCHA challenge that can never be passed. ' +
+      'A white panel reads “Select all squares with your page” above a 3×3 grid of hatched image tiles (a repeating diagonal gradient on an overlay pseudo-element) and a dark “VERIFY” button. ' +
+      'On a 7-second loop a pointer arrow (a clip-path polygon) walks the diagonal and taps three tiles — each one dropping its hatch overlay, filling with accent, showing “404” and popping a checkmark (a rotated element with only its right and bottom borders) — then jabs the button; the panel shakes and a “404 · FAILED” chip blinks before the tiles clear and the challenge restarts. ' +
+      'Use a single root element with a scoped class prefix, CSS custom properties for the ink/accent/shell colors, no JavaScript and no images, and disable the motion under prefers-reduced-motion (three tiles ticked, cursor resting on the button, “FAILED” shown).',
+  },
+  {
+    index: '42',
+    name: 'Left on Read',
+    type: 'chat-typing',
+    prompt:
+      'Create a pure-CSS animation for a 404 Not Found page: a chat thread that never gets a reply. ' +
+      'An outgoing accent bubble reading “GET /page” sits at the right with a “Read 4:04” receipt fading in beneath it; below on the left, a grey incoming bubble holds three bouncing typing dots (staggered animation-delay). ' +
+      'On a 7-second loop the typing bubble pops in, holds while the dots bounce, then shrinks away unanswered — twice, a pair of false starts — while the caption “404 · LEFT ON READ” brightens in the gap between them. ' +
+      'Use a single root element with a scoped class prefix, CSS custom properties for the ink/accent/shell colors, no JavaScript and no images, and disable the motion under prefers-reduced-motion (typing bubble shown, dots at rest).',
   },
 ];

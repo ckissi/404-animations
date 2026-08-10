@@ -1,0 +1,229 @@
+<!-- 404 · Not a Robot — a CAPTCHA that asks you to select the squares with your
+     page, then fails the check anyway. Pure CSS, self-contained, no
+     dependencies. Retheme via the custom properties on .cpt-404.
+     MIT licensed — 404.colorion.co -->
+<div class="cpt-404" role="img" aria-label="404 error animation: a CAPTCHA selecting squares that fails verification">
+  <div class="cpt-box">
+    <span class="cpt-head">Select all squares with<br /><b>your page</b></span>
+    <div class="cpt-grid">
+      <span class="cpt-cell"></span>
+      <span class="cpt-cell"></span>
+      <span class="cpt-cell cpt-hit" style="--i: 0;">404</span>
+      <span class="cpt-cell"></span>
+      <span class="cpt-cell cpt-hit" style="--i: 1;">404</span>
+      <span class="cpt-cell"></span>
+      <span class="cpt-cell cpt-hit" style="--i: 2;">404</span>
+      <span class="cpt-cell"></span>
+      <span class="cpt-cell"></span>
+      <span class="cpt-cursor"></span>
+    </div>
+    <span class="cpt-foot">
+      <span class="cpt-fail">404 · FAILED</span>
+      <span class="cpt-btn">VERIFY</span>
+    </span>
+  </div>
+</div>
+
+<style>
+  .cpt-404 {
+    --cpt-ink: #0f191e;
+    --cpt-accent: #f4ff2b;
+    --cpt-shell: #ffffff;
+    /* Cell pitch: 24px tile + 4px gap — the cursor path is derived from it. */
+    --cpt-pitch: 28px;
+    display: grid;
+    justify-items: center;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+  }
+
+  .cpt-box {
+    display: grid;
+    gap: 7px;
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--cpt-shell);
+    border: 1.5px solid var(--cpt-ink);
+    box-shadow: 0 3px 0 color-mix(in srgb, var(--cpt-ink) 14%, transparent);
+    animation: cpt-shake 7s ease-in-out infinite;
+  }
+
+  .cpt-head {
+    font-size: 7px;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--cpt-ink) 70%, var(--cpt-shell));
+  }
+  .cpt-head b { color: var(--cpt-ink); }
+
+  .cpt-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 24px);
+    gap: 4px;
+  }
+
+  .cpt-cell {
+    position: relative;
+    height: 24px;
+    display: grid;
+    align-content: end;
+    justify-content: center;
+    padding-bottom: 3px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    font-size: 7px;
+    font-weight: 800;
+    color: transparent;
+    background-color: transparent;
+  }
+
+  /* Hatched "image" tiles — nothing recognisable in any of them. The hatch
+     lives on an overlay so a picked tile can fade it off and show its fill. */
+  .cpt-cell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 3px;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--cpt-ink) 16%, var(--cpt-shell)) 0 3px,
+        color-mix(in srgb, var(--cpt-ink) 9%, var(--cpt-shell)) 3px 6px
+      );
+  }
+
+  /* The three squares that do hold the page — ticked one after another. */
+  .cpt-hit {
+    animation: cpt-pick 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.85s);
+  }
+  .cpt-hit::before {
+    animation: cpt-clear 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.85s);
+  }
+  .cpt-hit::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: calc(50% - 2px);
+    width: 4px;
+    height: 8px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--cpt-ink);
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(42deg) scale(0);
+    animation: cpt-check 7s ease-out infinite;
+    animation-delay: calc(var(--i) * 0.85s);
+  }
+
+  /* Pointer arrow drawn as a clipped triangle, walking the diagonal. */
+  .cpt-cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 9px;
+    height: 13px;
+    background: var(--cpt-ink);
+    clip-path: polygon(0 0, 0 100%, 28% 76%, 48% 100%, 68% 88%, 50% 62%, 100% 56%);
+    filter: drop-shadow(0 0 0.5px var(--cpt-shell));
+    animation: cpt-move 7s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+  }
+
+  .cpt-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .cpt-fail {
+    font-size: 6px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--cpt-ink);
+    background: var(--cpt-accent);
+    padding: 2px 4px;
+    border-radius: 3px;
+    opacity: 0;
+    animation: cpt-fail 7s steps(1) infinite;
+  }
+
+  .cpt-btn {
+    font-size: 6px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--cpt-shell);
+    background: var(--cpt-ink);
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+  }
+
+  @keyframes cpt-pick {
+    0%, 8%    { background-color: transparent; color: transparent; }
+    12%, 74%  { background-color: var(--cpt-accent); color: var(--cpt-ink); }
+    80%, 100% { background-color: transparent; color: transparent; }
+  }
+
+  @keyframes cpt-clear {
+    0%, 8%    { opacity: 1; }
+    12%, 74%  { opacity: 0; }
+    80%, 100% { opacity: 1; }
+  }
+
+  @keyframes cpt-check {
+    0%, 8%    { transform: rotate(42deg) scale(0); }
+    13%       { transform: rotate(42deg) scale(1.4); }
+    17%, 74%  { transform: rotate(42deg) scale(1); }
+    80%, 100% { transform: rotate(42deg) scale(0); }
+  }
+
+  /* Tap the three squares down the anti-diagonal, then jab at VERIFY.
+     Offsets place the arrow tip just inside each tile's centre. */
+  @keyframes cpt-move {
+    0%        { transform: translate(74px, 96px) scale(1); opacity: 0; }
+    6%        { transform: translate(64px, 8px) scale(1); opacity: 1; }
+    9%, 11%   { transform: translate(64px, 8px) scale(0.8); }
+    22%       { transform: translate(36px, 36px) scale(1); }
+    24%, 26%  { transform: translate(36px, 36px) scale(0.8); }
+    36%       { transform: translate(8px, 64px) scale(1); }
+    38%, 40%  { transform: translate(8px, 64px) scale(0.8); }
+    54%       { transform: translate(56px, 86px) scale(1); }
+    57%, 60%  { transform: translate(56px, 86px) scale(0.8); }
+    72%       { transform: translate(56px, 86px) scale(1); opacity: 1; }
+    86%, 100% { transform: translate(74px, 96px) scale(1); opacity: 0; }
+  }
+
+  @keyframes cpt-shake {
+    0%, 60%, 70%, 100% { transform: translateX(0); }
+    62%, 66%           { transform: translateX(-3px); }
+    64%, 68%           { transform: translateX(3px); }
+  }
+
+  @keyframes cpt-fail {
+    0%, 60%   { opacity: 0; }
+    61%, 66%  { opacity: 1; }
+    68%       { opacity: 0; }
+    70%, 78%  { opacity: 1; }
+    80%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cpt-404 .cpt-box,
+    .cpt-404 .cpt-cursor,
+    .cpt-404 .cpt-fail,
+    .cpt-404 .cpt-hit,
+    .cpt-404 .cpt-hit::before,
+    .cpt-404 .cpt-hit::after { animation: none; }
+    .cpt-404 .cpt-hit {
+      background-color: var(--cpt-accent);
+      color: var(--cpt-ink);
+    }
+    .cpt-404 .cpt-hit::before { opacity: 0; }
+    .cpt-404 .cpt-hit::after { transform: rotate(42deg) scale(1); }
+    .cpt-404 .cpt-cursor { transform: translate(56px, 86px); }
+    .cpt-404 .cpt-fail { opacity: 1; }
+  }
+</style>
